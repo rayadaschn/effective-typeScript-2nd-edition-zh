@@ -1,0 +1,51 @@
+name: deploy-gh-pages
+
+on:
+  push:
+    branches:
+      - sourcecode
+    paths-ignore: # 下列文件的变更不触发部署
+      - README.md
+      - LICENSE
+  pull_request:
+    branches:
+      - sourcecode
+    types: [closed]
+  schedule:
+    - cron: '30 5,11 * * *'
+
+jobs:
+  deploy-gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # repo-token: ${{ secrets.DEPLOY_TOKEN }}
+          # submodules: true
+
+      - name: set Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: npm install
+        run: npm ci
+
+      - name: build docs
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          npm run docs:build
+          > dist/.nojekyll
+
+      - name: deploy docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          #  文档部署到的分支名称
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          BRANCH: main
+          FOLDER: dist/
+          CLEAN: true
