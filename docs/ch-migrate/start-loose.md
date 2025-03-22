@@ -1,13 +1,13 @@
 # Item 83: Don't Consider Migration Complete Until You Enable noImplicitAny
 
-## Things to Remember
+## 要点
 
 - Don't consider your TypeScript migration done until you adopt `noImplicitAny`. Loose type checking can mask real mistakes in type declarations.
-- Fix type errors gradually before enforcing `noImplicitAny`. Give your team a chance to get comfortable with TypeScript before adopting stricter checks.## Code Samples
+- Fix type errors gradually before enforcing `noImplicitAny`. Give your team a chance to get comfortable with TypeScript before adopting stricter checks.## 正文
 
 ```ts
 class Chart {
-  indices: any;
+  indices: any
 
   // ...
 }
@@ -15,11 +15,11 @@ class Chart {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&noImplicitAny=false&strictNullChecks=false#code/MYGwhgzhAEDCAWYBOAXaBvAUNaBLAdgCa7ACmEAXNGPgJ4Dcm20A9C9AHReYC+mQA)
 
-----
+---
 
 ```ts
 class Chart {
-  indices: number[];
+  indices: number[]
 
   // ...
 }
@@ -27,7 +27,7 @@ class Chart {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&noImplicitAny=false&strictNullChecks=false#code/MYGwhgzhAEDCAWYBOAXaBvAUNaBLAdgCa7ACmEAXNPgK4C2ARqUgNoC6A3JttAPS-QAdMMwBfTEA)
 
-----
+---
 
 ```ts
 getRanges() {
@@ -43,7 +43,7 @@ getRanges() {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&noImplicitAny=false&strictNullChecks=false#code/PTAEAkEkBEFECgDGAbAhgZ3aAwgC1QE4AuoA3vKKAJYB2AJlYgKboBcoNArgLYBGTBANoBdANzwQoWADlo8AOZMiAJVQ1F6ABQBKMhVAAzAPYFQmxEZroSpowdBFcVdADpaDZul3lKlC1ZJkIwB3UABeUCEABjF9SklfAD0AflB-a1Ag4PY1AE84tMsMp3lccMjBAEZY31AEyhTCgNAS3ByafNrJFx79AF94AckoOEGJMBk5IA)
 
-----
+---
 
 ```ts
 getRanges() {
