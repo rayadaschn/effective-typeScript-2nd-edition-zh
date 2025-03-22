@@ -10,7 +10,7 @@ _提升 TypeScript 的 83 种具体方法_
 
 原书作者：[Dan Vanderkam 📚](https://github.com/danvk/effective-typescript)
 
-![Effective Typescript](./imgs/cover.jpg)
+![Effective Typescript](/cover.jpg)
 
 ## 目录
 
