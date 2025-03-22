@@ -5,6 +5,9 @@
 - Understand how `this` binding works.
 - Provide a type for `this` in callbacks if it's part of your API.
 - Avoid dynamic `this` binding in new APIs.
+- 理解 `this` 绑定是如何工作的。
+- 如果 `this` 是你 API 的一部分，在回调中提供 `this` 的类型。
+- 避免在新 API 中使用动态 `this` 绑定。
 
 ## 正文
 

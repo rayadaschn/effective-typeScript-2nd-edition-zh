@@ -2,15 +2,12 @@
 
 ## 要点
 
-- The DRY (don't repeat yourself) principle applies to types as much as it applies to logic.
-- Name types rather than repeating them. Use `extends` to avoid repeating fields in interfaces.
-
-[role="less_space pagebreak-before"]
-
-- Build an understanding of the tools provided by TypeScript to map between types. These include `keyof`, `typeof`, indexing, and mapped types.
-- Generic types are the equivalent of functions for types. Use them to map between types instead of repeating type-level operations.
-- Familiarize yourself with generic types defined in the standard library, such as `Pick`, `Partial`, and `ReturnType`.
-- Avoid over-application of DRY: make sure the properties and types you're sharing are really the same thing.
+- DRY（Don’t Repeat Yourself，别重复自己）原则在类型设计中同样适用，就像在业务逻辑中一样。
+- 给类型命名，避免重复定义。可以用 `extends` 来继承接口字段，减少重复。
+- 熟悉 TypeScript 提供的类型映射工具，比如 `keyof`、`typeof`、索引访问和映射类型。
+- 泛型类型就像类型层面的函数，用它们来进行类型转换，而不是重复操作。
+- 熟悉标准库中的常用泛型类型，比如 `Pick`、`Partial` 和 `ReturnType`。
+- 避免滥用 DRY，确保你复用的属性和类型确实是同一个概念。
 
 ## 正文
 

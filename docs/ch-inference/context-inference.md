@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Be aware of how context is used in type inference.
-- If factoring out a variable introduces a type error, maybe add a type annotation.
-- If the variable is truly a constant, use a const assertion (`as const`). But be aware that this may result in errors surfacing at use, rather than definition.
-- Prefer inlining values where it's practical to reduce the need for type annotations.
+- 了解上下文如何在类型推断中被使用。
+- 如果提取变量时引入了类型错误，可以考虑添加类型注解。
+- 如果变量确实是常量，使用 `const` 断言（`as const`）。但要注意，这可能会导致错误在使用时而非定义时出现。
+- 在可行的情况下，优先内联值，以减少对类型注解的需求。
 
 ## 正文
 

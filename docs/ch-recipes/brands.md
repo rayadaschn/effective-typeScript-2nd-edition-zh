@@ -4,7 +4,12 @@
 
 - With nominal typing, a value has a type because you say it has a type, not because it has the same shape as that type.
 - Consider attaching brands to distinguish primitive and object types that are semantically distinct but structurally identical.
-- Be familiar with the various techniques for branding: properties on object types, string-based enums, private fields, and unique symbols.## 正文
+- Be familiar with the various techniques for branding: properties on object types, string-based enums, private fields, and unique symbols.
+- 在命名类型系统中，一个值之所以有某种类型，是因为你声明它具有该类型，而不是因为它的形状与该类型相同。
+- 考虑附加标记来区分语义上不同但结构上相同的原始类型和对象类型。
+- 熟悉多种标记技术：对象类型的属性、基于字符串的枚举、私有字段和唯一符号等。
+
+## 正文
 
 ```ts
 interface Vector2D {

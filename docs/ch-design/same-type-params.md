@@ -4,6 +4,8 @@
 
 - Avoid writing functions that take consecutive parameters with the same TypeScript type.
 - Refactor functions that take many parameters to take fewer parameters with distinct types, or a single object parameter.
+- 避免编写接受连续具有相同 TypeScript 类型的参数的函数。
+- 重构接受多个参数的函数，使其接受较少的参数且具有不同的类型，或者将这些参数合并为一个单一的对象参数。
 
 ## 正文
 

@@ -4,7 +4,12 @@
 
 - Use declaration merging to improve existing APIs or disallow problematic constructs.
 - Use `void` or error string returns to "knock out" methods and mark them `@deprecated`.
-- Remember that overloads only apply at the type level. Don't make the types diverge from reality.## 正文
+- Remember that overloads only apply at the type level. Don't make the types diverge from reality.
+- 使用声明合并来改进现有的 API 或禁止问题构造。
+- 使用 `void` 或错误字符串返回值来“废弃”方法，并标记为 `@deprecated`。
+- 记住，重载只适用于类型层面。不要让类型与实际情况不一致。
+
+## 正文
 
 ```ts
 declare let apiResponse: string

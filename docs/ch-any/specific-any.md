@@ -4,8 +4,8 @@
 
 - When you use `any`, think about whether any JavaScript value is truly permissible.
 - Prefer more precise forms of `any` such as `any[]` or `{[id: string]: any}` or `() => any` if they more accurately model your data.
-
-// TODO: I don't love these examples since they could all be replaced with `unknown[]`.
+- 当你使用 `any` 时，考虑是否真的允许任何 JavaScript 值。
+- 如果更准确地描述数据，优先使用更精确的 `any` 形式，如 `any[]`、`{[id: string]: any}` 或 `() => any`。
 
 ## 正文
 

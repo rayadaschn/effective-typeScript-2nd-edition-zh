@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Avoid writing type annotations when TypeScript can infer the same type.
-- Ideal TypeScript code has type annotations in function/method signatures but not on local variables in their bodies.
-- Consider using explicit annotations for object literals to enable excess property checking and ensure errors are reported close to where they occur.
-- Don't annotate function return types unless the function has multiple returns, is part of a public API, or you want it to return a named type.
+- 避免在 TypeScript 可以推断出相同类型时写类型注解。
+- 理想的 TypeScript 代码在函数/方法签名中添加类型注解，而在函数体内的局部变量不需要类型注解。
+- 对对象字面量使用显式注解，以启用多余属性检查，并确保错误在发生的位置被及时报告。
+- 除非函数有多个返回值、是公共 API 的一部分，或者你希望它返回一个命名类型，否则不要注解函数的返回类型。
 
 ## 正文
 

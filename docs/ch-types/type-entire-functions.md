@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Consider applying type annotations to entire function expressions, rather than to their parameters and return type.
-- If you're writing the same type signature repeatedly, factor out a function type or look for an existing one.
-- If you're a library author, provide types for common callbacks.
-- Use `typeof fn` to match the signature of another function, or `Parameters` and a rest parameter if you need to change the return type.
+- 考虑为整个函数表达式添加类型注解，而不仅仅是参数和返回类型。
+- 如果你反复写相同的类型签名，可以抽象出一个函数类型，或者寻找已有的类型。
+- 如果你是库的作者，应该为常见的回调函数提供类型定义。
+- 使用 `typeof fn` 来匹配另一个函数的签名，或者使用 `Parameters` 和 rest 参数来修改返回类型。
 
 ## 正文
 

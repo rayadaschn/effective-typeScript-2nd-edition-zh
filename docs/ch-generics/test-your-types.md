@@ -6,6 +6,10 @@
 - For functions that use callbacks, test the inferred types of the callback parameters. Don't forget to test the type of `this` if it's part of your API.
 - Avoid writing your own type testing code. Use one of the standard tools instead.
 - For code on DefinitelyTyped, use `dtslint`. For your own code, use `vitest`, `expect-type`, or the Type Challenges approach. If you want to test type display, use `eslint-plugin-expect-type`.
+- 在测试类型时，要注意等同性与可赋值性之间的区别，尤其是对于函数类型。
+- 对于使用回调函数的函数，测试回调参数的推断类型。如果 `this` 是你 API 的一部分，也不要忘记测试 `this` 的类型。
+- 避免编写自己的类型测试代码。使用标准工具进行测试。
+- 对于 DefinitelyTyped 上的代码，使用 `dtslint`。对于你自己的代码，使用 `vitest`、`expect-type` 或 Type Challenges 方法。如果你想测试类型的显示，使用 `eslint-plugin-expect-type`。
 
 ## 正文
 

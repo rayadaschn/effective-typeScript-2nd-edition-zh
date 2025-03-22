@@ -5,9 +5,11 @@
 - For functions with multiple type parameters, inference is all or nothing: either all type parameters are inferred or all must be specified explicitly.
 - To get partial inference, use either classes or currying to create a new inference site.
 - Prefer the currying approach if you'd like to create a local type alias.
+- 对于具有多个类型参数的函数，推断是全有或全无的：要么所有类型参数都被推断，要么必须全部显式指定。
+- 若要实现部分推断，可以使用类或柯里化来创建新的推断位置。
+- 如果想创建一个局部类型别名，优先使用柯里化方法。
 
-////
-// verifier:reset## 正文
+## 正文
 
 ```ts
 export interface SeedAPI {

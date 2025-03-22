@@ -5,6 +5,9 @@
 - Avoid repeating type information in comments and variable names. In the best case it is duplicative of type declarations, and in the worst case it will lead to conflicting information.
 - Declare parameters `readonly` rather than saying that you don't mutate them.
 - Consider including units in variable names if they aren't clear from the type (e.g., `timeMs` or `temperatureC`).
+- 避免在注释和变量名中重复类型信息。最好的情况是它与类型声明重复，最糟糕的情况是会导致信息冲突。
+- 声明参数为 `readonly`，而不是简单地说明你不会修改它们。
+- 如果变量的单位从类型中不清楚，考虑在变量名中包括单位（例如，`timeMs` 或 `temperatureC`）。
 
 ## 正文
 

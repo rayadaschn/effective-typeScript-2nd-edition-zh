@@ -8,7 +8,9 @@ _提升 TypeScript 的 83 种具体方法_
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![GitHub last commit](https://img.shields.io/github/last-commit/rayadaschn/effective-typeScript-2nd-edition-zh)
 
-原书作者：[Dan Vanderkam 📚](https://github.com/danvk/effective-typescript)
+原书作者：[Dan Vanderkam](https://github.com/danvk)
+
+> “Effective TypeScript by Dan Vanderkam (O’Reilly). Copyright 2020 Dan Vanderkam, 978-1-492-05374-3.”
 
 ## 目录
 

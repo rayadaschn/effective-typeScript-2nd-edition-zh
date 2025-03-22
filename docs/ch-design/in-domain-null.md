@@ -5,6 +5,9 @@
 - Avoid special values that are assignable to regular values in a type. They will reduce TypeScript's ability to find bugs in your code.
 - Prefer `null` or `undefined` as a special value instead of `0`, `-1`, or `""`.
 - Consider using a tagged union rather than `null` or `undefined` if the meaning of those values isn't clear.
+- 避免将特殊值赋给常规类型的值，这会降低 TypeScript 发现代码中 bug 的能力。
+- 优先使用 `null` 或 `undefined` 作为特殊值，而不是 `0`、`-1` 或 `""`。
+- 如果特殊值的意义不明确，考虑使用标签联合类型（tagged union）代替 `null` 或 `undefined`。
 
 ## 正文
 

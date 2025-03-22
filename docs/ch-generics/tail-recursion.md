@@ -4,6 +4,8 @@
 
 - Aim to make your recursive generic types tail recursive. They're more efficient and have greater depth limits.
 - Recursive type aliases can often be made tail recursive by rewriting them to use an accumulator.
+- 旨在使递归泛型类型尾递归。尾递归更加高效，且具有更大的深度限制。
+- 通过重写递归类型别名，使其使用累加器，可以将其转换为尾递归形式。
 
 ## 正文
 

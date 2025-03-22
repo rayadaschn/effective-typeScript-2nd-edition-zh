@@ -2,10 +2,10 @@
 
 ## 要点
 
-- When you assign an object literal to a variable with a known type or pass it as an argument to a function, it undergoes excess property checking.
-- Excess property checking is an effective way to find errors, but it is distinct from the usual structural assignability checks done by the TypeScript type checker. Conflating these processes will make it harder for you to build a mental model of assignability. TypeScript types are not "closed" (pass:[<a href="#structural">Item 4</a>]).
-- Be aware of the limits of excess property checking: introducing an intermediate variable will remove these checks.
-- A "weak type" is an object type with only optional properties. For these types, assignability checks require at least one matching property.
+- 当你将一个对象字面量赋值给已知类型的变量，或作为参数传给函数时，TypeScript 会进行多余属性检查（excess property checking）。
+- 多余属性检查是发现错误的有效手段，但它不同于 TypeScript 通常的结构兼容性检查。如果混淆这两者，会让你更难理解类型赋值的原理。TypeScript 的类型不是“封闭”的（详见：[第 4 条](#structural)）。
+- 要注意多余属性检查的局限性：如果你引入一个中间变量，这些检查会失效。
+- “弱类型”指的是所有属性都是可选的对象类型。对于这类类型，赋值检查时至少需要有一个匹配的属性。
 
 ## 正文
 

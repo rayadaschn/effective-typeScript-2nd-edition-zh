@@ -7,6 +7,11 @@
 - Avoid mutating function parameters as this can lead to unsoundness. Mark them as read-only if you don't intend to mutate them.
 - Make sure child classes match their parent's method declarations.
 - Be aware of how optional properties can lead to unsound types.
+- “不健全性”（Unsoundness）是指符号的运行时值与其静态类型不一致。这可能导致崩溃和其他不良行为，而没有类型错误的提示。
+- 注意常见的不健全性来源：`any` 类型、类型断言（`as`、`is`）、对象和数组查找，以及不准确的类型定义。
+- 避免修改函数参数，因为这可能导致不健全性。如果不打算修改它们，请将参数标记为只读（`readonly`）。
+- 确保子类的方法声明与父类匹配。
+- 注意可选属性可能导致不健全类型。
 
 ## 正文
 

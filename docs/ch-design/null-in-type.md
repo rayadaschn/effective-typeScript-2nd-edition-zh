@@ -2,7 +2,7 @@
 
 ## 要点
 
-- Avoid defining type aliases that include `null` or `undefined`.
+- 避免定义包含 `null` 或 `undefined` 的类型别名。
 
 ## 正文
 

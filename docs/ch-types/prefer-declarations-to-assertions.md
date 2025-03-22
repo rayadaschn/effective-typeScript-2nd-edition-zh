@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Prefer type annotations (`: Type`) to type assertions (`as Type`).
-- Know how to annotate the return type of an arrow function.
-- Use type assertions and non-null assertions only when you know something about types that TypeScript does not.
-- When you use a type assertion, include a comment explaining why it's valid.
+- 优先使用类型注解（`: Type`），少用类型断言（`as Type`）。
+- 熟悉如何为箭头函数标注返回类型。
+- 只有在你确信自己比 TypeScript 更清楚类型情况时，才使用类型断言或非空断言。
+- 使用类型断言时，务必加注释解释为什么这样写是安全的。
 
 ## 正文
 

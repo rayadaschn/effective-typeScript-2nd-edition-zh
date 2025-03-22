@@ -2,9 +2,9 @@
 
 ## 要点
 
-- While TypeScript types typically only _refine_, the types of values initialized to `null`, `undefined`, or `[]` are allowed to _evolve_.
-- Recognize and understand this construct where it occurs, and use it to reduce the need for type annotations in your own code.
-- For better error checking, consider providing an explicit type annotation instead of using evolving types.
+- 虽然 TypeScript 类型通常只是 _细化_，但初始化为 `null`、`undefined` 或 `[]` 的值的类型允许 _演变_。
+- 识别并理解这一构造的出现，并利用它减少在代码中对类型注解的需求。
+- 为了更好的错误检查，考虑提供显式的类型注解，而不是使用演变类型。
 
 ## 正文
 

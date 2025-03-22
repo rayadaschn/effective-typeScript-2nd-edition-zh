@@ -5,6 +5,9 @@
 - Make your uses of `any` as narrowly scoped as possible to avoid undesired loss of type safety elsewhere in your code.
 - Never return an `any` type from a function. This will silently lead to the loss of type safety for code that calls the function.
 - Use `as any` on individual properties of a larger object instead of the whole object.
+- 尽可能将 `any` 的使用范围限定得尽量窄，以避免在代码的其他地方丧失类型安全。
+- 永远不要从函数中返回 `any` 类型。这会悄悄导致调用该函数的代码失去类型安全。
+- 对于较大的对象，最好只对单个属性使用 `as any`，而不是对整个对象使用。
 
 ## 正文
 

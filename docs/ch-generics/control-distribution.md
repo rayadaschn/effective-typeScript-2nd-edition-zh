@@ -5,6 +5,9 @@
 - Think about whether you want unions to distribute over your conditional types.
 - Know how to enable or disable distribution by adding conditions or by wrapping conditions in one-tuples.
 - Be aware of the surprising behavior of `boolean` and `never` types when they distribute over unions.
+- 考虑是否希望联合类型在你的条件类型上分发（distribute）。
+- 了解如何通过添加条件或将条件包装在单元素元组（one-tuples）中来启用或禁用分发。
+- 注意 `boolean` 和 `never` 类型在分发到联合类型时的意外行为。
 
 ## 正文
 

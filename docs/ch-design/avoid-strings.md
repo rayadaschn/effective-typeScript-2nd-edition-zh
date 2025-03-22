@@ -5,6 +5,9 @@
 - Avoid "stringly typed" code. Prefer more appropriate types where not every `string` is a possibility.
 - Prefer a union of string literal types to `string` if that more accurately describes the domain of a variable. You'll get stricter type checking and improve the development experience.
 - Prefer `keyof T` to `string` for function parameters that are expected to be properties of an object.
+- 避免“字符串类型”的代码。对于不需要每个 `string` 都是可能值的场景，优先使用更合适的类型。
+- 如果一个联合字符串字面量类型更准确地描述了变量的领域，优先使用联合类型，而不是 `string`。这样可以获得更严格的类型检查，提升开发体验。
+- 对于期望为对象属性的函数参数，优先使用 `keyof T` 而不是 `string`。
 
 ## 正文
 

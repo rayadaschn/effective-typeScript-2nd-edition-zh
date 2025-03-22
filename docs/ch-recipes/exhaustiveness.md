@@ -5,6 +5,9 @@
 - Use an assignment to the `never` type to ensure that all possible values of a type are handled (an "exhaustiveness check").
 - Add a return type annotation to functions that return from multiple branches. You may still want an explicit exhaustiveness check, however.
 - Consider using template literal types to ensure that every combination of two or more types is handled.
+- 使用赋值给 `never` 类型来确保所有可能的类型值都被处理（“穷尽性检查”）。
+- 为返回多个分支的函数添加返回类型注解。尽管如此，你仍然可能需要显式的穷尽性检查。
+- 考虑使用模板字面量类型来确保每种两种或更多类型的组合都被处理。
 
 ## 正文
 

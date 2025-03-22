@@ -16,7 +16,12 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav,
     sidebar,
-    socialLinks: [{ icon: 'github', link: 'https://github.com/rayadaschn' }],
+    socialLinks: [
+      {
+        icon: 'github',
+        link: 'https://github.com/rayadaschn/effective-typeScript-2nd-edition-zh',
+      },
+    ],
     editLink: {
       pattern:
         'https://github.com/rayadaschn/effective-typeScript-2nd-edition-zh/edit/main/docs/:path',

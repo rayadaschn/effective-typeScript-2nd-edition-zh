@@ -5,6 +5,9 @@
 - Prefer conditional types to overloaded type signatures. By distributing over unions, conditional types allow your declarations to support union types without additional overloads.
 - If the union case is implausible, consider whether your function would be clearer as two or more functions with different names.
 - Consider using the single overload strategy for implementing functions declared with conditional types.
+- 优先使用条件类型（conditional types）而不是重载类型签名。通过对联合类型进行分布，条件类型使得你的声明能够支持联合类型，而不需要额外的重载。
+- 如果联合类型中的某个情况不太可能发生，考虑将你的函数分解为多个具有不同名称的函数，这样可能会更清晰。
+- 在实现使用条件类型声明的函数时，可以考虑使用单一重载策略。
 
 ## 正文
 

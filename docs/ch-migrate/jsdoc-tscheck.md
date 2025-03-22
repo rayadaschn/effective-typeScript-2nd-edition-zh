@@ -6,6 +6,10 @@
 - Recognize common errors. Know how to declare globals and add type declarations for third-party libraries.
 - Use JSDoc annotations for type assertions and better type inference.
 - Don't spend too much time getting your code perfectly typed with JSDoc. Remember that the goal is to convert to _.ts_!
+- 在 JavaScript 文件顶部添加 "`// @ts-check`" 以启用类型检查，而无需转换为 TypeScript。
+- 识别常见错误。了解如何声明全局变量并为第三方库添加类型声明。
+- 使用 JSDoc 注释进行类型断言和更好的类型推断。
+- 不要花太多时间通过 JSDoc 让代码完美类型化。记住，目标是转换为 _.ts_ 文件！
 
 ## 正文
 

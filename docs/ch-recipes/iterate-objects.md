@@ -6,27 +6,10 @@
 - Use `Object.entries` to iterate over the keys and values of any object.
 - Use a ++for-in++ loop with an explicit type assertion to iterate objects when you know exactly what the keys will be.
 - Consider `Map` as an alternative to objects since it's easier to iterate over.
-
-////
-Check that the "Surprisingly" aside continues to work:
-// verifier:reset
-// verifier:prepend-subset-of-id-to-following:abc:1-5
-[source,ts]
-
----
-
-function foo(abc: ABC) {
-let k: keyof ABC;
-for (k in abc) {
-// ^? let k: keyof ABC (equivalent to "a" | "b" | "c")
-const v = abc[k];
-// ^? const v: string | number
-}
-}
-
----
-
-////
+- 要注意函数接收的任何对象作为参数可能包含额外的键。
+- 使用 `Object.entries` 来遍历任何对象的键和值。
+- 当你确切知道对象的键时，使用 `for-in` 循环并进行显式的类型断言来遍历对象。
+- 考虑使用 `Map` 作为对象的替代品，因为它更容易进行迭代。
 
 ## 正文
 

@@ -5,6 +5,9 @@
 - Understand how TypeScript narrows types based on conditionals and other types of control flow.
 - Use tagged/discriminated unions and user-defined type guards to help the process of narrowing.
 - Think about whether code can be refactored to let TypeScript follow along more easily.
+- 了解 TypeScript 如何基于条件语句和其他控制流缩小类型范围。
+- 使用标记/区分联合类型和用户定义的类型保护来帮助缩小类型。
+- 考虑是否可以重构代码，使 TypeScript 更容易跟随并推断类型。
 
 ## 正文
 

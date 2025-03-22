@@ -6,8 +6,12 @@
 - Use `unknown` to force your users to use a type assertion or other form of narrowing.
 - Avoid return-only type parameters, which can create a false sense of security.
 - Understand the difference between `{}`, `object`, and `unknown`.
+- `unknown` 类型是 `any` 的类型安全替代品。当你知道有一个值，但不知道或不关心它的类型时，使用 `unknown`。
+- 使用 `unknown` 强制用户进行类型断言或其他形式的类型收窄。
+- 避免仅返回类型的参数，因为它们可能会带来虚假的安全感。
+- 理解 `{}`、`object` 和 `unknown` 之间的区别。
 
-////## 正文
+## 正文
 
 ```ts
 function parseYAML(yaml: string): any {

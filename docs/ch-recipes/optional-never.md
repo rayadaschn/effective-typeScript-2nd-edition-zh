@@ -5,6 +5,9 @@
 - In TypeScript, "or" is "inclusive or": `A | B` means either `A`, `B`, or both.
 - Consider the "both" possibility in your code, and either handle it or disallow it.
 - Use tagged unions to model exclusive or where it's convenient. Consider using optional `never` properties where it isn't.
+- 在 TypeScript 中，“或”是“包括性或”：`A | B` 意味着可以是 `A`、`B`，或者两者都有。
+- 在代码中考虑“同时”的情况，并对其进行处理或禁止。
+- 在方便的情况下，使用标记联合（tagged unions）来建模互斥或（exclusive or）。在不方便使用时，可以考虑使用可选的 `never` 属性。
 
 ## 正文
 

@@ -2,10 +2,10 @@
 
 ## 要点
 
-- If your function does not modify its parameters, declare them `readonly` (arrays) or `Readonly` (object types). This makes the function's contract clearer and prevents inadvertent mutations in its implementation.
-- Understand that `readonly` and `Readonly` are shallow, and that `Readonly` only affects properties, not methods.
-- Use `readonly` to prevent errors with mutation and to find the places in your code where mutations occur.
-- Understand the difference between `const` and `readonly`: the former prevents reassignment, the latter prevents mutation.
+- 如果函数不会修改参数，给数组参数加上 `readonly`，对象参数用 `Readonly`，这样可以让函数的使用约定更清晰，也能避免实现过程中不小心修改参数。
+- 理解 `readonly` 和 `Readonly` 只是浅层保护，对象的嵌套属性或方法本身不会受影响。
+- 使用 `readonly` 可以防止误操作带来的修改，并帮助你定位代码中发生变更的地方。
+- 分清 `const` 和 `readonly`：`const` 阻止变量被重新赋值，`readonly` 阻止对象或数组内部被修改。
 
 ## 正文
 

@@ -6,6 +6,10 @@
 - TypeScript gives you some tools to control how types display, notably the `Resolve` generic. Make judicious use of this to clarify type display and hide implementation details.
 - Consider handling important special cases of generic types to improve type display.
 - Write tests for your generic types and their display to avoid regressions.
+- 展示同一类型的方式有很多种，某些方式比其他方式更清晰。
+- TypeScript 提供了一些控制类型显示的工具，特别是 `Resolve` 泛型。要谨慎使用它来澄清类型显示并隐藏实现细节。
+- 考虑处理泛型类型的重要特殊情况，以改善类型显示。
+- 为你的泛型类型及其显示编写测试，以避免回归错误。
 
 ## 正文
 

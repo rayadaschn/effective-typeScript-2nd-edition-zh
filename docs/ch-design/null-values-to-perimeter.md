@@ -5,6 +5,9 @@
 - Avoid designs in which one value being `null` or not `null` is implicitly related to another value being `null` or not `null`.
 - Push `null` values to the perimeter of your API by making larger objects either `null` or fully non-`null`. This will make code clearer both for human readers and for the type checker.
 - Consider creating a fully non-`null` class and constructing it when all values are available.
+- 避免设计中一个值是否为 `null` 隐式地与另一个值是否为 `null` 相关联。
+- 通过使较大的对象要么为 `null`，要么完全非 `null`，将 `null` 值推到 API 的外围。这将使代码对程序员和类型检查器更加清晰。
+- 考虑创建一个完全非 `null` 的类，并在所有值都可用时构造它。
 
 ## 正文
 

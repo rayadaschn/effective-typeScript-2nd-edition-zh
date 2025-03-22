@@ -6,6 +6,10 @@
 - Use `@param`, `@returns`, and Markdown for formatting.
 - Avoid including type information in documentation (see pass:[<a href="#jsdoc-repeat">Item 31</a>]).
 - Mark deprecated APIs with `@deprecated`.
+- 使用 JSDoc/TSDoc 格式的注释来记录导出的函数、类和类型。这有助于编辑器在最相关时为用户提供信息。
+- 使用 `@param`、`@returns` 和 Markdown 来进行格式化。
+- 避免在文档中包含类型信息（参见第 31 项）。
+- 使用 `@deprecated` 标记已废弃的 API。
 
 ## 正文
 

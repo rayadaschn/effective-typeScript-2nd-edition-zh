@@ -2,8 +2,8 @@
 
 ## 要点
 
-- Understand the drawbacks of index signatures: much like `any`, they erode type safety and reduce the value of language services.
-- Prefer more precise types to index signatures when possible: ++interface++s, `Map`, ++Record++s, mapped types, or index signatures with a constrained key space.
+- 了解索引签名的缺点：它们和 `any` 类似，会削弱类型安全，降低语言服务的价值。
+- 能不用索引签名时，优先选择更精确的类型：`**interface**s`、`Map`、`**Record**s`、映射类型，或限制了键名范围的索引签名。
 
 ## 正文
 

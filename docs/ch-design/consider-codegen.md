@@ -3,7 +3,11 @@
 ## 要点
 
 - Avoid writing types by hand based on data that you've seen. It's easy to misunderstand a schema or get nullability wrong.
-- Prefer types sourced from official clients or the community. If these don't exist, generate TypeScript types from schemas.## 正文
+- Prefer types sourced from official clients or the community. If these don't exist, generate TypeScript types from schemas.
+- 避免根据你所看到的数据手动编写类型。误解 schema 或错误处理 nullability 是很容易的。
+- 优先使用官方客户端或社区提供的类型。如果没有这些，考虑从 schema 生成 TypeScript 类型。
+
+## 正文
 
 ```ts
 function calculateBoundingBox(f: GeoJSONFeature): BoundingBox | null {

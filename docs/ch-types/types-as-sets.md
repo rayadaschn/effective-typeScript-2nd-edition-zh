@@ -2,11 +2,11 @@
 
 ## 要点
 
-- Think of types as sets of values (the type's _domain_). These sets can either be finite (e.g., `boolean` or literal types) or infinite (e.g., `number` or `string`).
-- TypeScript types form intersecting sets (a Venn diagram) rather than a strict hierarchy. Two types can overlap without either being a subtype of the other.
-- Remember that an object can still belong to a type even if it has additional properties that were not mentioned in the type declaration.
-- Type operations apply to a set's domain. The domain of `A | B` is the union of the domains of `A` and `B`.
-- Think of "extends," "assignable to," and "subtype of" as synonyms for "subset of."
+- 将类型视为值的集合（类型的 _领域_）。这些集合可以是有限的（例如 `boolean` 或字面量类型），也可以是无限的（例如 `number` 或 `string`）。
+- TypeScript 类型形成交集集合（类似维恩图），而不是严格的层次结构。两个类型可以有重叠部分，而不一定是彼此的子类型。
+- 记住，即使一个对象有类型声明中未提到的额外属性，它仍然可以属于该类型。
+- 类型操作作用于集合的领域。`A | B` 的领域是 `A` 和 `B` 领域的并集。
+- 将“extends”、“可赋值给”和“子类型”视为“子集”的同义词。
 
 ## 正文
 

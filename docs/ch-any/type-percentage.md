@@ -3,7 +3,11 @@
 ## 要点
 
 - Even with `noImplicitAny` set, `any` types can make their way into your code either through explicit ++any++s or third-party type declarations (`@types`).
-- Consider tracking how well-typed your program is using a tool like `type-coverage`. This will encourage you to revisit decisions about using `any` and increase type safety over time.## 正文
+- Consider tracking how well-typed your program is using a tool like `type-coverage`. This will encourage you to revisit decisions about using `any` and increase type safety over time.
+- 即使设置了 `noImplicitAny`，`any` 类型仍然可能通过显式的 `any` 或第三方类型声明（`@types`）进入你的代码中。
+- 考虑使用诸如 `type-coverage` 之类的工具来跟踪你的程序的类型覆盖情况。这将鼓励你重新审视使用 `any` 的决策，并随着时间的推移提高类型安全性。
+
+## 正文
 
 ```ts
 function getColumnInfo(name: string): any {

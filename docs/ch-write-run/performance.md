@@ -6,7 +6,9 @@
 - Keep type checking separate from your build process.
 - Remove dead code and dependencies, and be on guard for code bloat in type dependencies. Use a treemap to visualize what TypeScript is compiling.
 - Use incremental builds and project references to reduce the work `tsc` does between builds.
-- Simplify your types: avoid large unions, use `interface` extension rather than intersection types, and consider annotating function return types.## 正文
+- Simplify your types: avoid large unions, use `interface` extension rather than intersection types, and consider annotating function return types.
+
+## 正文
 
 ```ts
 // hello.ts

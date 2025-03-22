@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Understand the differences and similarities between `type` and `interface`.
-- Know how to write the same types using either syntax.
-- Be aware of declaration merging for `interface` and type inlining for `type`.
-- For projects without an established style, prefer `interface` to `type` for object types.
+- 理解 `type` 和 `interface` 之间的异同。
+- 知道如何使用两种语法编写相同的类型。
+- 了解 `interface` 的声明合并和 `type` 的类型内联。
+- 对于没有既定风格的项目，优先使用 `interface` 来定义对象类型。
 
 ## 正文
 

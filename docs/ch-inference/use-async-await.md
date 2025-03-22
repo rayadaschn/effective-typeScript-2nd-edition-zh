@@ -5,6 +5,9 @@
 - Prefer Promises to callbacks for better composability and type flow.
 - Prefer `async` and `await` to raw Promises when possible. They produce more concise, straightforward code and eliminate whole classes of errors.
 - If a function returns a Promise, declare it `async`.
+- 为了更好的组合性和类型流，优先使用 Promises 而非回调函数。
+- 尽可能使用 `async` 和 `await` 替代原始的 Promises，它们可以生成更简洁、直接的代码，并消除一类常见的错误。
+- 如果一个函数返回 Promise，声明该函数为 `async`。
 
 ## 正文
 

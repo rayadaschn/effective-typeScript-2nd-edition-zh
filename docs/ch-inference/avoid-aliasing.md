@@ -2,8 +2,8 @@
 
 ## 要点
 
-- Aliasing can prevent TypeScript from narrowing types. If you create an alias for a variable, use it consistently.
-- Be aware of how function calls can invalidate type refinements on properties. Trust refinements on local variables more than on properties.
+- 类型别名可能会阻止 TypeScript 缩小类型范围。如果为变量创建了别名，应该始终如一地使用它。
+- 了解函数调用如何使属性上的类型细化失效。相比属性，应该更信任局部变量上的类型细化。
 
 ## 正文
 

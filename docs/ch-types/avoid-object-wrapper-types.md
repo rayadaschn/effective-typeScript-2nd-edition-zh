@@ -2,8 +2,8 @@
 
 ## 要点
 
-- Avoid TypeScript object wrapper types. Use the primitive types instead: `string` instead of `String`, `number` instead of `Number`, `boolean` instead of `Boolean`, `symbol` instead of `Symbol`, and `bigint` instead of `BigInt`.
-- Understand how object wrapper types are used to provide methods on primitive values. Avoid instantiating them or using them directly, with the exception of `Symbol` and `BigInt`.
+- 避免使用 TypeScript 的对象包装类型，优先使用原始类型：用 `string` 代替 `String`，`number` 代替 `Number`，`boolean` 代替 `Boolean`，`symbol` 代替 `Symbol`，`bigint` 代替 `BigInt`。
+- 理解对象包装类型的作用是为原始值提供方法，避免直接实例化或使用它们，`Symbol` 和 `BigInt` 是例外。
 
 ## 正文
 

@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Take advantage of the TypeScript language services by using an editor that supports them.
-- Use your editor to build an intuition for how the type system works and how TypeScript infers types.
-- Familiarize yourself with TypeScript's refactoring tools, e.g., renaming symbols and files.
-- Know how to jump into type declaration files to see how they model behavior.
+- 使用支持 TypeScript 语言服务的编辑器，充分发挥其优势。
+- 通过编辑器，培养对类型系统工作原理及 TypeScript 类型推断机制的直觉。
+- 熟悉 TypeScript 提供的重构工具，比如符号重命名、文件重命名等功能。
+- 学会查看类型声明文件，了解它们是如何描述行为的。
 
 ## 正文
 

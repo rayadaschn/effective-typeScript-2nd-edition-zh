@@ -6,6 +6,10 @@
 - Begin migrating your own modules from the bottom of the dependency graph upwards. The first module will usually be some sort of utility code. Consider visualizing the dependency graph to help you track progress.
 - Resist the urge to refactor your code as you uncover odd designs. Keep a list of ideas for future refactors, but stay focused on TypeScript conversion.
 - Be aware of common errors that come up during conversion. Move JSDoc types into TypeScript type annotations if necessary to avoid losing type safety as you convert.
+- 通过为第三方模块和外部 API 调用添加 `@types` 来开始迁移。
+- 从依赖图底部开始迁移你自己的模块，逐步向上迁移。第一个模块通常是某种实用工具代码。考虑可视化依赖图来帮助你跟踪进度。
+- 抵制在发现奇怪设计时重构代码的冲动。保持一个未来重构的想法列表，但要专注于 TypeScript 的转换。
+- 注意转换过程中常见的错误。必要时将 JSDoc 类型转换为 TypeScript 类型注解，以避免在转换过程中丢失类型安全。
 
 ## 正文
 

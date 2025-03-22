@@ -3,7 +3,9 @@
 ## 要点
 
 - Don't consider your TypeScript migration done until you adopt `noImplicitAny`. Loose type checking can mask real mistakes in type declarations.
-- Fix type errors gradually before enforcing `noImplicitAny`. Give your team a chance to get comfortable with TypeScript before adopting stricter checks.## 正文
+- Fix type errors gradually before enforcing `noImplicitAny`. Give your team a chance to get comfortable with TypeScript before adopting stricter checks.
+
+## 正文
 
 ```ts
 class Chart {

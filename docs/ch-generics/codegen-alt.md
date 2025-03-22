@@ -4,7 +4,12 @@
 
 - While type-level TypeScript is an impressively powerful tool, it's not always the best tool for the job.
 - For complex type manipulations, consider generating code and types as an alternative to writing type-level code. Your code generation tool can be written in ordinary TypeScript or any other language.
-- Run codegen and `git diff` on your continuous integration system to make sure generated code stays in sync.## 正文
+- Run codegen and `git diff` on your continuous integration system to make sure generated code stays in sync.
+- 虽然 TypeScript 的类型层次非常强大，但并不总是最适合的工具。
+- 对于复杂的类型操作，考虑生成代码和类型作为写类型层次代码的替代方案。你的代码生成工具可以用普通的 TypeScript 或其他语言编写。
+- 在持续集成系统上运行代码生成和 `git diff`，以确保生成的代码与源代码保持同步。
+
+## 正文
 
 ```ts
 async function getBooks(db: Database) {

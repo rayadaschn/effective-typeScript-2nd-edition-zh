@@ -5,8 +5,11 @@
 - Use template literal types to model structured subsets of `string` types and domain-specific languages (DSLs).
 - Combine template literal types with mapped and conditional types to capture nuanced relationships between types.
 - Take care to avoid crossing the line into inaccurate types. Strive for uses of template literal types that improve developer experience without requiring knowledge of fancy language features.
+- 使用模板字面量类型来建模 `string` 类型的结构化子集和领域特定语言（DSL）。
+- 将模板字面量类型与映射类型和条件类型结合，以捕获类型之间的细微关系。
+- 小心避免进入不准确类型的范畴。力求使用模板字面量类型来提升开发者体验，而不需要过多依赖复杂的语言特性。
 
-////## 正文
+## 正文
 
 ```ts
 type MedalColor = 'gold' | 'silver' | 'bronze'

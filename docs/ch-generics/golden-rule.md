@@ -7,6 +7,11 @@
 - Remember that a type parameter may appear in an inferred type.
 - Avoid "return-only generics."
 - Unneeded type parameters can often be replaced with the `unknown` type.
+- 避免给不需要类型参数的函数和类添加类型参数。
+- 由于类型参数关联类型，因此每个类型参数必须至少出现两次或更多次以建立关系。
+- 记住，类型参数可能出现在推断类型中。
+- 避免“仅返回类型的泛型”。
+- 不必要的类型参数通常可以用 `unknown` 类型替代。
 
 ## 正文
 

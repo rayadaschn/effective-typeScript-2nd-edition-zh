@@ -6,6 +6,10 @@
 - Avoid broad return types since these will be awkward for clients to use.
 - To reuse types between parameters and return types, introduce a canonical form (for return types) and a looser form (for parameters).
 - Use `Iterable<T>` instead of `T[]` if you only need to iterate over your function parameter.
+- 输入类型通常比输出类型更宽泛。可选属性和联合类型在参数类型中比返回类型更常见。
+- 避免使用宽泛的返回类型，因为这会使客户端的使用变得不便。
+- 为了在参数和返回类型之间复用类型，可以引入一个标准类型（用于返回类型）和一个更宽松的类型（用于参数）。
+- 如果你只需要遍历函数参数，使用 `Iterable<T>` 而不是 `T[]`。
 
 ## 正文
 

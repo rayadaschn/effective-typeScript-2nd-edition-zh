@@ -2,10 +2,10 @@
 
 ## 要点
 
-- Know how to tell whether you're in type space or value space while reading a TypeScript expression. Use the TypeScript playground to build an intuition for this.
-- Every value has a static type, but this is only accessible in type space. Type space constructs such as `type` and `interface` are erased and are not accessible in value space.
-- Some constructs, such as `class` or `enum`, introduce both a type and a value.
-- `typeof`, `this`, and many other operators and keywords have different meanings in type space and value space.
+- 阅读 TypeScript 表达式时，要了解如何区分类型空间和值空间。可以使用 TypeScript playground 来帮助建立这种直觉。
+- 每个值都有一个静态类型，但只有在类型空间中才能访问。像 `type` 和 `interface` 这样的类型空间构造会被擦除，在值空间中无法访问。
+- 一些构造，比如 `class` 或 `enum`，同时引入了类型和值。
+- `typeof`、`this` 以及许多其他操作符和关键字在类型空间和值空间中有不同的含义。
 
 ## 正文
 

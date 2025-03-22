@@ -5,6 +5,9 @@
 - Avoid transitive type dependencies in published npm modules.
 - Use structural typing to sever dependencies that are nonessential.
 - Don't force JavaScript users to depend on `@types`. Don't force web developers to depend on Node.js.
+- 避免在发布的 npm 模块中出现传递类型依赖。
+- 使用结构化类型来切断非必要的依赖。
+- 不要强迫 JavaScript 用户依赖 `@types`，也不要强迫 web 开发者依赖 Node.js。
 
 ## 正文
 

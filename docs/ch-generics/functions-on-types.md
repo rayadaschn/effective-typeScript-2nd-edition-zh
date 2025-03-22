@@ -6,6 +6,10 @@
 - Use `extends` to constrain the domain of type parameters, just as you'd use a type annotation to constrain a function parameter.
 - Choose type parameter names that increase the legibility of your code, and write TSDoc for them.
 - Think of generic functions and classes as conceptually defining generic types that are conducive to type inference.
+- 把泛型类型看作是类型之间的函数。
+- 使用 `extends` 来约束类型参数的领域，就像你用类型注解来约束函数参数一样。
+- 选择能增加代码可读性的类型参数名称，并为它们编写 TSDoc 文档。
+- 把泛型函数和类看作是概念上定义了有利于类型推断的泛型类型。
 
 ## 正文
 

@@ -5,6 +5,9 @@
 - Reuse names from the domain of your problem where possible to increase the readability and level of abstraction of your code. Make sure you use domain terms accurately.
 - Avoid using different names for the same thing: make distinctions in names meaningful.
 - Avoid vague names like "Info" or "Entity." Name types for what they are, rather than for their shape.
+- 尽可能重复使用来自问题领域的名称，以提高代码的可读性和抽象级别。确保准确使用领域术语。
+- 避免为相同的事物使用不同的名称：确保名称之间的区分有意义。
+- 避免使用模糊的名称，例如 "Info" 或 "Entity"。给类型命名时，要根据其实际含义命名，而不是根据其形状命名。
 
 ## 正文
 

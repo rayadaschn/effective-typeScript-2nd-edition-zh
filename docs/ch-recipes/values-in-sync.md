@@ -5,6 +5,9 @@
 - Recognize the fail open versus fail closed dilemma.
 - Use ++Record++ types to keep related values and types synchronized.
 - Consider using ++Record++ types to force choices when adding new properties to an interface.
+- 认识到“失败开放”（fail open）与“失败封闭”（fail closed）之间的两难问题。
+- 使用 `Record` 类型来保持相关值和类型的同步。
+- 在向接口添加新属性时，可以考虑使用 `Record` 类型来强制做出选择。
 
 ## 正文
 

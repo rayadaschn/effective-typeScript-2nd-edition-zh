@@ -4,6 +4,8 @@
 
 - While a variable's value can change, its type generally does not.
 - To avoid confusion, both for human readers and for the type checker, avoid reusing variables for differently typed values.
+- 虽然变量的值可以变化，但其类型通常不会变化。
+- 为了避免混淆，既为人类读者，也为类型检查器，避免将变量重用于不同类型的值。
 
 ## 正文
 

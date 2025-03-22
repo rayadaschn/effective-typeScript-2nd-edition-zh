@@ -6,6 +6,10 @@
 - Unions of interfaces are more precise and can be understood by TypeScript.
 - Use tagged unions to facilitate control flow analysis. Because they are so well supported, this pattern is ubiquitous in TypeScript code.
 - Consider whether multiple optional properties could be grouped to more accurately model your data.
+- 拥有多个联合类型属性的接口通常是一个错误，因为它们会模糊这些属性之间的关系。
+- 接口的联合类型更加精确，并且能被 TypeScript 理解。
+- 使用标记联合（tagged unions）来促进控制流分析。由于它们得到了很好的支持，这种模式在 TypeScript 代码中非常常见。
+- 考虑是否可以将多个可选属性组合起来，以更准确地建模数据。
 
 ## 正文
 

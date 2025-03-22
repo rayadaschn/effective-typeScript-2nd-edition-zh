@@ -6,6 +6,10 @@
 - Think twice before adding an optional property to an interface. Consider whether you could make it required instead.
 - Consider creating distinct types for un-normalized input data and normalized data for use in your code.
 - Avoid a combinatorial explosion of options.
+- 可选属性可能会阻止类型检查器发现错误，并可能导致重复且可能不一致的代码来填充默认值。
+- 在向接口添加可选属性之前，三思而后行。考虑是否可以将其改为必填属性。
+- 考虑为未标准化的输入数据和标准化的数据创建不同的类型，以便在代码中使用。
+- 避免选项的组合爆炸。
 
 ## 正文
 

@@ -5,6 +5,9 @@
 - Avoid the uncanny valley of type safety: complex but inaccurate types are often worse than simpler, less precise types. If you cannot model a type accurately, do not model it inaccurately! Acknowledge the gaps using `any` or `unknown`.
 - Pay attention to error messages and autocomplete as you make typings increasingly precise. It's not just about correctness: developer experience matters, too.
 - As your types grow more complex, your test suite for them should expand.
+- 避免类型安全的“怪异谷”：复杂但不准确的类型通常比简单、不精确的类型更糟。如果无法准确建模类型，就不要不准确地建模！可以使用 `any` 或 `unknown` 来承认类型模型中的空白。
+- 在使类型越来越精确时，关注错误信息和自动补全功能。这不仅仅关乎正确性：开发者体验同样重要。
+- 随着类型变得更加复杂，针对这些类型的测试用例也应当增加。
 
 ## 正文
 

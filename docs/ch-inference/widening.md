@@ -4,6 +4,8 @@
 
 - Understand how TypeScript infers a type from a literal by widening it.
 - Familiarize yourself with the ways you can affect this behavior: `const`, type annotations, context, helper functions, `as const`, and `satisfies`.
+- 了解 TypeScript 如何通过宽化推断字面量的类型。
+- 熟悉你可以影响这种行为的方式：`const`、类型注解、上下文、辅助函数、`as const` 和 `satisfies`。
 
 ## 正文
 

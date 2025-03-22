@@ -3,6 +3,7 @@
 ## 要点
 
 - Export types that appear in any form in any public method. Your users will be able to extract them anyway, so you may as well make it easy for them.
+- 导出在任何公共方法中以任何形式出现的类型。你的用户反正能够提取它们，所以不如直接让他们更容易获取。
 
 ## 正文
 

@@ -5,6 +5,9 @@
 - Sometimes unsafe type assertions and `any` types are necessary or expedient. When you need to use one, hide it inside a function with a correct signature.
 - Don't compromise a function's type signature to fix type errors in the implementation.
 - Make sure you explain why your type assertions are valid, and unit test your code thoroughly.
+- 有时不安全的类型断言和 `any` 类型是必要的或是为了加快开发进度。当你需要使用它们时，将其隐藏在具有正确签名的函数内部。
+- 不要为了修复实现中的类型错误而妥协函数的类型签名。
+- 确保解释为什么你的类型断言是有效的，并且对代码进行充分的单元测试。
 
 ## 正文
 

@@ -5,6 +5,9 @@
 - Use rest parameters and tuple types to model functions whose signature depends on the type of an argument.
 - Use conditional types to model relationships between the type of one parameter and the number and type of the remaining parameters.
 - Remember to label the elements of your tuple types to get meaningful parameter names at call sites.
+- 使用剩余参数和元组类型来建模函数签名，这些签名依赖于某个参数的类型。
+- 使用条件类型来建模一个参数的类型与其余参数的数量和类型之间的关系。
+- 记得标记元组类型的元素，以便在调用时获得有意义的参数名称。
 
 ## 正文
 

@@ -3,6 +3,7 @@
 ## 要点
 
 - Use built-in functional constructs and those in utility libraries like Lodash instead of hand-rolled constructs to improve type flow, increase legibility, and reduce the need for explicit type annotations.
+- 使用内置的函数式构造和像 Lodash 这样的工具库中的构造，而不是手动编写构造，以改善类型流、提高可读性并减少对显式类型注解的需求。
 
 ## 正文
 

@@ -5,6 +5,9 @@
 - Prefer structured code to storing data in globals or on the DOM.
 - If you must store data on built-in types, use one of the type-safe approaches (augmentation or asserting a custom interface).
 - Understand the scoping issues of augmentations. Include `undefined` if that's a possibility at runtime.
+- 优先使用结构化代码，而不是将数据存储在全局变量或 DOM 上。
+- 如果必须将数据存储在内建类型上，使用类型安全的方法（如扩展或断言自定义接口）。
+- 理解扩展的作用域问题。如果在运行时可能出现 `undefined`，则需要在类型中包含 `undefined`。
 
 ## 正文
 

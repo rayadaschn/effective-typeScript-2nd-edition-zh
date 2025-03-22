@@ -2,8 +2,8 @@
 
 ## 要点
 
-- Understand that arrays are objects, so their keys are strings, not numbers. `number` as an index signature is a purely TypeScript construct designed to help catch bugs.
-- Prefer `Array`, tuple, `ArrayLike`, or `Iterable` types to using `number` in an index signature yourself.
+- 要知道数组本质上是对象，它们的键实际是字符串，不是数字。TypeScript 中的 `number` 索引签名只是为了帮你更好地捕获错误，属于类型层面的设计。
+- 比起自己写带 `number` 索引签名，优先使用内置的 `Array`、元组、`ArrayLike` 或 `Iterable` 类型。
 
 ## 正文
 

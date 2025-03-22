@@ -7,8 +7,13 @@
 - Unifying types may require some adjustments to runtime code.
 - If the types aren't in your control, you may need to model the variations.
 - Don't unify types that aren't representing the same thing.
+- 相同类型的不同变体会增加认知负担，并需要大量的转换代码。
+- 与其在代码中建模类型的轻微变化，不如消除这些变化，以便将它们统一为单一类型。
+- 统一类型可能需要对运行时代码进行一些调整。
+- 如果这些类型不在你的控制之下，可能需要对变体进行建模。
+- 不要统一那些不代表相同事物的类型。
 
-////## 正文
+## 正文
 
 ```ts
 interface StudentTable {
