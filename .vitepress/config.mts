@@ -7,7 +7,7 @@ import { sidebar } from './sidebar.mts'
 export default defineConfig({
   title: 'Effective Typescript',
   description: 'Effective Typescript 中文第二版',
-  base: '/effective-typescript-2nd-edition-zh/',
+  base: './',
   srcDir: 'docs',
   outDir: 'dist',
   appearance: 'dark',
