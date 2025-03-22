@@ -35,7 +35,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           #  文档部署到的分支名称
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_DOC_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist/
           CLEAN: true
