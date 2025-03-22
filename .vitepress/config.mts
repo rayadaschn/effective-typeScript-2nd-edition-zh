@@ -30,11 +30,8 @@ export default defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025-PRESENT Huy',
     },
-    algolia: {
-      appId: 'NTNZJ1MM77',
-      apiKey: '32c1f89c32f811b176f014a78c89eb92',
-      indexName: 'Huy',
-      placeholder: '请输入关键词',
+    search: {
+      provider: 'local',
     },
   },
 })

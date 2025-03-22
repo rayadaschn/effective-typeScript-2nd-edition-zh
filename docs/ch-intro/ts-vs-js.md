@@ -20,7 +20,7 @@ function greet(who: string) {
 
 但是你将其在 js 中运行时，会报错：
 
-```error
+```js
 function greet(who: string) {
                   ^
 SyntaxError: Unexpected token :
@@ -45,7 +45,7 @@ console.log(city.toUppercase())
 
 如果你运行它会抛出这样的一个错误：
 
-```error
+```js
 TypeError: city.toUppercase is not a function
 ```
 

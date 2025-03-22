@@ -2,7 +2,7 @@
 
 _提升 TypeScript 的 83 种具体方法_
 
-[![Author: Huy](https://img.shields.io/badge/Author-huy-yellow)](https://github.com/rayadaschn)
+[![Author: Huy](https://img.shields.io/badge/Author-Huy-yellow)](https://github.com/rayadaschn)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
