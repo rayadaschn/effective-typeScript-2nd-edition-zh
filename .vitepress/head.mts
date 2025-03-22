@@ -12,7 +12,7 @@ export const head: HeadConfig[] = [
     'meta',
     {
       name: 'keywords',
-      content: 'Typescript, Effective Typescript',
+      content: 'Effective Typescript, book',
     },
   ],
 ]

@@ -9,12 +9,18 @@ export default defineConfig({
   description: 'Effective Typescript 中文第二版',
   srcDir: 'docs',
   outDir: 'dist',
+  appearance: 'dark',
   head,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav,
     sidebar,
     socialLinks: [{ icon: 'github', link: 'https://github.com/rayadaschn' }],
+    editLink: {
+      pattern:
+        'https://github.com/rayadaschn/effective-typeScript-2nd-edition-zh/edit/main/docs/:path',
+      text: '在 GitHub 上编辑本章内容',
+    },
     docFooter: {
       prev: '上一章',
       next: '下一章',
