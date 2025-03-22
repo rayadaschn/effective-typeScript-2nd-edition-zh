@@ -31,15 +31,11 @@ jobs:
           node-version: 18
           cache: npm
 
-      - name: npm install
-        run: npm ci
-
-      - name: build docs
-        env:
-          NODE_OPTIONS: --max_old_space_size=8192
-        run: |-
-          npm run docs:build
-          > dist/.nojekyll
+      - name: npm install & build docs
+        run: |
+          npm i -g pnpm
+          pnpm install
+          pnpm docs:build
 
       - name: deploy docs
         uses: JamesIves/github-pages-deploy-action@v4
