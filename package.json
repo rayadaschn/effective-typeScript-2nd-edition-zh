@@ -2,12 +2,14 @@
   "name": "effective-typescript",
   "version": "1.0.0",
   "description": "Effective Typescript 中文第二版",
+  "type": "module",
   "keywords": [
     "Effective Typescript",
     "typescript",
     "中文"
   ],
   "author": "Huy",
+  "homepage": "https://rayadaschn.github.io/front-end-life/",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rayadaschn/effective-typeScript-2nd-edition-zh/issues"
