@@ -1,4 +1,4 @@
-<img src="./img/cover.jpg" width="286" title="Second Edition Cover Image" align="right">
+<img src="./cover.jpg" width="286" title="Second Edition Cover Image" align="right">
 
 # 《Effective Typescript》中文第二版
 
