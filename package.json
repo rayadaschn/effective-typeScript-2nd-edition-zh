@@ -1,12 +1,13 @@
 {
   "name": "effective-typescript",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Effective Typescript 中文第二版",
   "type": "module",
   "keywords": [
     "Effective Typescript",
     "typescript",
-    "中文"
+    "中文",
+    "ts"
   ],
   "author": "Huy",
   "homepage": "https://rayadaschn.github.io/front-end-life/",
