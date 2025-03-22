@@ -32,10 +32,9 @@ jobs:
           pnpm docs:build
 
       - name: deploy docs
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: crazy-max/ghaction-github-pages@v2
         with:
-          #  文档部署到的分支名称
+          target_branch: gh-pages
+          build_dir: dist
+        env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist/
-          CLEAN: true
