@@ -2,20 +2,35 @@
   "name": "effective-typescript",
   "version": "1.0.0",
   "description": "Effective Typescript 中文第二版",
-  "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview",
-    "backup": "git add . && git commit -m \"chore: updata\" && git push"
-  },
   "keywords": [
     "Effective Typescript",
     "typescript",
     "中文"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Huy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rayadaschn/effective-typeScript-2nd-edition-zh/issues"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "backup": "git add . && git commit -m \"chore: updata\" && git push",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged",
+    "mirror:get": "npm config get registry",
+    "mirror:set": "npm config set registry https://registry.npmmirror.com",
+    "mirror:rm": "npm config rm registry"
+  },
+  "lint-staged": {
+    "docs/**/*.{md}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
     "vitepress": "^1.6.3"
   }
 }
