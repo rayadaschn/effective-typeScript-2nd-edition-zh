@@ -3,13 +3,13 @@ name: deploy-gh-pages
 on:
   push:
     branches:
-      - sourcecode
+      - main
     paths-ignore: # 下列文件的变更不触发部署
       - README.md
       - LICENSE
   pull_request:
     branches:
-      - sourcecode
+      - main
     types: [closed]
   schedule:
     - cron: '30 5,11 * * *'
@@ -46,6 +46,6 @@ jobs:
         with:
           #  文档部署到的分支名称
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          BRANCH: main
+          BRANCH: gh-pages
           FOLDER: dist/
           CLEAN: true
