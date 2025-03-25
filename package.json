@@ -26,14 +26,7 @@
     "mirror:set": "npm config set registry https://registry.npmmirror.com",
     "mirror:rm": "npm config rm registry"
   },
-  "lint-staged": {
-    "docs/**/*.{md}": [
-      "prettier --write"
-    ]
-  },
   "devDependencies": {
-    "husky": "^9.1.7",
-    "lint-staged": "^15.5.0",
     "vitepress": "^1.6.3"
   }
 }

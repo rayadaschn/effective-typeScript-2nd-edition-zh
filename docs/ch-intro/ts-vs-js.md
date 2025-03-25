@@ -276,7 +276,7 @@ TypeScript 假设数组访问会在有效范围内进行，但实际上并没有
 - **类型检查器允许 JavaScript 运行时能正常运行的隐式行为**，如字符串拼接或类型转换。
 - 但 **它也会尽可能帮你发现那些虽然运行不报错，但存在潜在 bug 或不符合预期的代码**。这正体现了 TypeScript 设计上的平衡 —— 灵活但不放纵，严格但不死板。
 
-## 回顾
+## 关键点总结
 
 - **TypeScript 是 JavaScript 的超集**：所有 JavaScript 程序在语法上都是有效的 TypeScript 程序，但并非所有 TypeScript 程序都是有效的 JavaScript 程序。
 - **TypeScript 增加了一个静态类型系统**，它模拟 JavaScript 的运行时行为，并尝试发现那些会在运行时抛出异常的代码。

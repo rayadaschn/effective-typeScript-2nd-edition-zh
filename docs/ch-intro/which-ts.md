@@ -174,7 +174,7 @@ tenses[0].toUpperCase()
 
 务必了解自己使用了哪些配置！如果同事分享了一个 TypeScript 示例，而你复现不了他们遇到的错误，记得先检查一下你们的编译器选项是否一致。
 
-## 回顾
+## 关键点总结
 
 - TypeScript 编译器有多个设置，会影响语言的核心特性。
 - 使用 **tsconfig.json** 配置 TypeScript，而不是命令行参数。
