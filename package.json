@@ -20,8 +20,6 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
     "backup": "git add . && git commit -m \"chore: updata\" && git push",
-    "prepare": "husky install",
-    "lint-staged": "lint-staged",
     "mirror:get": "npm config get registry",
     "mirror:set": "npm config set registry https://registry.npmmirror.com",
     "mirror:rm": "npm config rm registry"
