@@ -35,8 +35,14 @@ export default defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025-PRESENT Huy',
     },
-    search: {
-      provider: 'local',
+    algolia: {
+      appId: '0PM3HDFXQM',
+      apiKey: '8210141ccbaa2742ca8e3b6f7cb845ec',
+      indexName: 'rayadaschnio',
+      placeholder: '请输入关键词',
     },
+    // search: {
+    //   provider: 'local',
+    // },
   },
 })
