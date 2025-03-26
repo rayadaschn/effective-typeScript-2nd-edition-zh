@@ -1,4 +1,4 @@
-# Item 7: Think of Types as Sets of Values
+# 第 7 条：把类型看作值的集合
 
 ## 要点
 

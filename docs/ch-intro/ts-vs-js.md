@@ -13,11 +13,11 @@
 
 ## 正文
 
-TypeScript 禁止一些合法但值得怀疑的 JavaScript 构造，例如使用错误数量的参数调用函数。
+> TypeScript 禁止一些合法但值得怀疑的 JavaScript 结构，例如使用了错误参数的函数。
+>
+> 而类型注解会告诉 TypeScript 你的意图，并以此区分正确的代码和错误的代码。
 
-类型注解告诉 TypeScript 你的意图，帮助它区分正确的代码和错误的代码。
-
-如果你长时间使用 TypeScript，你不可避免地会听到“TypeScript 是 JavaScript 的超集”或“TypeScript 是 JavaScript 的类型化超集”这样的说法。但这到底是什么意思呢？TypeScript 和 JavaScript 之间的关系是什么？由于这两种语言紧密相连，深入理解它们之间的关系是高效使用 TypeScript 的基础。
+如果你经常使用 TypeScript，你不可避免地会听到“TypeScript 是 JavaScript 的超集”或“TypeScript 是 JavaScript 的类型化超集”这样的说法。但这到底是什么意思呢？TypeScript 和 JavaScript 之间的关系是什么？由于这两种语言紧密相连，深入理解它们之间的关系是高效使用 TypeScript 的基础。
 
 A 是 B 的“超集”，意味着 B 中的所有内容也包含在 A 中。从语法的角度来看，TypeScript 是 JavaScript 的超集：只要你的 JavaScript 程序没有语法错误，它也是一个 TypeScript 程序。(虽然很可能 TypeScript 的类型检查器也会标记出一些代码问题，但这是另一个问题。) 首先 TypeScript 仍然会解析你的代码并生成 JavaScript。
 
