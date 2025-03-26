@@ -16,6 +16,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav,
     sidebar,
+    outlineTitle: '本节概要',
     socialLinks: [
       {
         icon: 'github',
