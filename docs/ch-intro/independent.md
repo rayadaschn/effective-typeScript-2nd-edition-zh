@@ -1,308 +1,367 @@
-# 理解代码生成与类型系统是相互独立的
+# 第 7 条：把类型看作值的集合
 
 ## 要点
 
-- **代码生成与类型系统是独立的。** 这意味着 TypeScript 的类型不会影响代码的运行时行为。
-- **即使程序存在类型错误，仍然可能生成 JavaScript 代码（即“编译”仍会进行）。**
-- **TypeScript 类型在运行时不可用。** 如果需要在运行时获取类型信息，必须通过某种方式重新构造它，例如使用**标签联合（tagged union）**或**属性检查（property checking）**。
-- 有些结构，比如 `class`，会同时产生 TypeScript 的类型和一个运行时可用的值。
-- **TypeScript 类型在编译时会被移除，因此不会影响代码的运行时性能。**
+- 将类型看作值的集合（即类型的范围）。这些集合可以是有限的（例如 `boolean` 或字面量类型），也可以是无限的（例如 `number` 或 `string`）。
+- TypeScript 的类型是相交集合（可以用维恩图表示），而不是严格的层次结构。两个类型可以有重叠部分，但互相并不是子类型。
+- 即使一个对象有额外的属性，而这些属性没有在类型声明中提到，它仍然可以属于该类型。
+- 类型操作适用于集合的范围。例如，`A | B` 的范围是 `A` 和 `B` 的并集。
+- 将 `extends`、"assignable to" 和 "subtype of" 理解为 "子集" 的同义词。
 
 ## 正文
 
-TypeScript 的编译器`tsc`主要做两件事：
+在运行时，每个变量都会从 JavaScript 的数值类型中选择一个具体的值。这些可能的值包括：
 
-- 将新一代的 TypeScript/JavaScript 转换为较旧版本的 JavaScript，以便在浏览器或其他运行环境中使用（即“转译”）。
-- 检查代码中的类型错误。
+- `42`
+- `null`
+- `undefined`
+- `'Canada'`
+- `{animal: 'Whale', weight_lbs: 40_000}`
+- `/regex/`
+- `new HTMLButtonElement`
+- `(x, y) => x + y`
 
-令人惊讶的是，这两种行为完全独立。换句话说，你的代码中的类型不会影响 TypeScript 生成的 JavaScript。由于最终执行的是 JavaScript，这意味着**类型不会影响代码的运行方式**。
+在代码运行之前，当 TypeScript 在检查错误时，变量只有一个类型。可以将类型理解为一组可能的值，这个集合称为**类型的取值范围（domain）**。例如，`number` 类型可以看作是所有数值的集合，其中 `42` 和 `-37.25` 属于这个集合，而 `'Canada'` 不属于。具体来说，`null` 和 `undefined` 是否属于该集合，取决于 `strictNullChecks` 选项的设置。
 
-这带来了一些意想不到的影响，并且应该让你明确 TypeScript 能做什么，不能做什么。
+> 在 TypeScript 的文档或相关资料中，你不会经常看到“domain”（取值范围）这个术语，甚至在本书的其他部分也很少出现。通常，我们会把类型与其对应的值集合视为同一回事。但在本节中，我们需要一个专门的术语来指代某个类型对应的值集合，而不是类型本身，因此这里会使用“domain”来表示这一概念。
 
-### 无法在运行过程中检查类型错误
-
-你可能想写出下面这样的代码:
-
-```ts
-interface Square {
-  width: number
-}
-interface Rectangle extends Square {
-  height: number
-}
-type Shape = Square | Rectangle
-
-function calculateArea(shape: Shape) {
-  if (shape instanceof Rectangle) {
-    //                 ~~~~~~~~~ 'Rectangle' only refers to a type,
-    //                           but is being used as a value here
-    return shape.height * shape.width
-    //           ~~~~~~ Property 'height' does not exist on type 'Shape'
-  } else {
-    return shape.width * shape.width
-  }
-}
-```
-
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyyA7sACZgAWAXMiJgLYBG0A3AQL4GiSyIoAShARg4IAOYAbFBAAekEOQDOaLDnxFkVCMAlUwdBi3ZcCYAJ4AHFKipwbyALxrsuZAB9kw0eOkQOAhhMEFFgAHsQZAQ4KQRMKThIAEFcOAAKZXsbOjsHCABKZEJiYBhkTOyUUGUxUIhw8p86-yKS4mQAek6O3r6+gD8h4eHkAHJmvxkx5EipC2RcGGhVMHDkOGRLGwAaLWJu-qPj-uZMMGRgVVZQCWRMZQhyDdVNgDdYzBQdXH3FiDAmCgUSy+QAdDo9AZkAAqZCgmxgsiUKgcXqHE7IEZDZAABSg4RsUEs40h+jAM3I4QgqhA4Qu8iuF0iW2sKDGeRsYy0nGQECkj2Kf1wgOB8KqSIo1Fh4vByOoaOQ3G4QA)
-
-`instanceof` 检查发生在运行时，而 `Rectangle` 是一个类型，不能影响代码的运行时行为。TypeScript 的类型是“可擦除的”：在编译为 JavaScript 的过程中，所有接口、类型和类型注解都会被移除。
-
-在 `instanceof` 检查之前，JavaScript 代码中并没有 `Rectangle` 的任何信息，这正是问题所在。
-
-要确定 `shape` 的类型，需要一种在运行时重建其类型的方法，也就是说，必须在生成的 JavaScript 中有效，而不仅仅是在 TypeScript 代码中有效。
-
-有几种方法可以实现这一点，其中一种是检查对象是否具有 `height` 属性：
+最小的集合是空集，它不包含任何值。在 TypeScript 中，它对应的是 `never` 类型。由于它的“domain”（取值范围）是空的，因此没有任何值可以赋给 `never` 类型的变量：
 
 ```ts
-function calculateArea(shape: Shape) {
-  if ('height' in shape) {
-    return shape.width * shape.height
-    //     ^? (parameter) shape: Rectangle
-  } else {
-    return shape.width * shape.width
-  }
-}
+const x: never = 12
+//    ~ Type 'number' is not assignable to type 'never'.
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyyA7sACZgAWAXMiJgLYBG0A3AQL4GiSyIoAShARg4IAOYAbFBAAekEOQDOaLDnxFkVCMAlUwdBi3ZcCYAJ4AHFKipwbyALxrsuZAB9kw0eOkQOGEwQUWAAexBkBDgpBEwpOEgAQVw4AAplexs6OwcIAEpkQmJgGGQ0gHIdPQMK5FBkTLzC4uJkXDBMKEimmwA6MkoqZAAqRqyIPur9MA425AB6BfnkAD0AfnKrHDhGCD5C3og6HzFJGS1OZAgpZU15jq6eiYGKalHxvNehueRubiAA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/MYewdgzgLgBAHgLhmApgNxQJxgXhgRgCYBuAKAHpyZqYA-GAFQE8AHFGAcjAFcBbAIywcYASwjIQsAIYQIIgOZgp-ADbsoIGFFbsu6IQDpSQA)
 
-这种方法有效，是因为属性检查只涉及运行时可用的值，同时 TypeScript 仍然可以据此推断 `shape` 的类型为 `Rectangle`。
+由于`never`位于类型层级的最底层，它有时被称为"底部类型"。
 
-另一种方法是引入一个“类型标签”（tag），显式地在运行时存储类型信息：
+再往上的最小集合是仅包含单个值的集合，在 TypeScript 中，它们对应于字面量类型。（在其他语言中，这类类型有时被称为“单元类型”（unit types）。）
 
 ```ts
-interface Square {
-  kind: 'square'
-  width: number
-}
-interface Rectangle {
-  kind: 'rectangle'
-  height: number
-  width: number
-}
-type Shape = Square | Rectangle
-
-function calculateArea(shape: Shape) {
-  if (shape.kind === 'rectangle') {
-    return shape.width * shape.height
-    //     ^? (parameter) shape: Rectangle
-  } else {
-    return shape.width * shape.width
-    //     ^? (parameter) shape: Square
-  }
-}
+type A = 'A'
+type B = 'B'
+type Twelve = 12
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMoEcCucooN4BQyyA1qACYBcyA5AM5Y4Q0DcRyA7sOWABbUhMAWwBG0NgF8CoSLEQoAShARg4IAOYAbfOzIgqtXCrVbmbYrwjB1vMAOFio5ztz73R4glLABPAA4oqLxwAcgAvGiMuMgAPshKxhrabAQwmCAqwAD2IMgIcJoImJpwkACCuHAAFHTBAdRBIRAAlMiExMAwyDV1EAB0euThYRE0RqpJzK3txMi4YJhQubVNfVw8vMgAVMgrAX2W1rbOxAD0p7PEAHoA-N1+OHBCELKtexDUCROm7BLIEJo6DpLvNFstemtXJsdu9IRsTshzpdkLd7o9nq9dr0GlEIL8vAQgA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/C4TwDgpgBAglC8UDkMkG4BQpJQEIOV3S3GgBUB3CAGwDdpEBGAJkyA)
 
-这里的 `kind` 属性充当了“标签”（tag），因此我们称 `Shape` 类型为**“标签联合”**（tagged union）。这种模式有时也被称为**“可区分联合”**（discriminated union），其中 `kind` 被称为“区分标识”（discriminant）。这两个术语是可以互换使用的。
-
-由于这种方式可以轻松在运行时恢复类型信息，因此**标签联合**/**可区分联合**在 TypeScript 中非常常见。
-
-有些构造既引入类型（仅在编译时可用），也引入值（在运行时可用）。`class` 关键字就是其中之一。因此，将 `Square` 和 `Rectangle` 定义为类也是修正错误的另一种方法：
+要创建具有两个或三个值的类型，可以使用字面量类型联合：
 
 ```ts
-class Square {
-  width: number
-  constructor(width: number) {
-    this.width = width
-  }
-}
-class Rectangle extends Square {
-  height: number
-  constructor(width: number, height: number) {
-    super(width)
-    this.height = height
-  }
-}
-type Shape = Square | Rectangle
-
-function calculateArea(shape: Shape) {
-  if (shape instanceof Rectangle) {
-    return shape.width * shape.height
-    //     ^? (parameter) shape: Rectangle
-  } else {
-    return shape.width * shape.width
-    //     ^? (parameter) shape: Square
-  }
-}
+type AB = 'A' | 'B'
+type AB12 = 'A' | 'B' | 12
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/MYGwhgzhAEDKCOBXMAnAptA3gKGtA7gJYAmALgBYBc0AdogLYBGaKA3LtMAPY0SkqJgpLigAURMlVoNmKAJRYOeCoQgA6CRWgBeAiQrs8AX2wnQkGACU0QsDQDmIDGgAepNDWIwEydIrzkaIT25KTUdEwshpw8fAJCIuL6UhGyADTQgcGh4TIsCjh4eBCIAA4sSZJy0crkqmpZIaQ6mUFN0SYmpACe5XDkYH26PqgYAD7Q1rYOTuzYAGaINEKEPJxgIMCI4O4AguhgohAD5dSwJ2gFHITz0EcX0IS8pHbAaFy3Uy8zl-5F6KRECgaNBjoM0BpktAAFSgi4NNqhGrQAD0KKKeAAegB+O6lVBgehodzyOHg6hfOyONAcIzQNAgCAYQr-YlAkFg8qQyQwslczTkZFojHQHF4glEkkKTloM5IUa00zYIA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/C4TwDgpgBAggQlAvFA5DFUA+q4oNwBQokscAjAExKrpY4baWFA)
 
-这是因为 `class Rectangle` 同时引入了类型和值，而 `interface` 只引入了类型。
+联合类型的“domain”（取值范围）是其组成类型“domain”（取值范围）的并集，如图所示。这正是"联合类型"中"联合"一词的含义。
 
-在 `type Shape = Square | Rectangle` 中，`Rectangle` 指的是类型，而在 `shape instanceof Rectangle` 中，`Rectangle` 指的是值（即构造函数）。这种区别非常重要，但可能有些微妙。在第 8 条中将介绍如何区分它们。
+![Values and types as sets of values. e boxes are values ("A", "B", 12) and
+the rounded shapes are types (A, B, AB, AB12, Twelve), which include a set of values. One
+type is assignable to another if it’s entirely contained within it.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202503272316946.png)
 
-### 具有类型错误的代码可以被编译器保留
+“assignable”（可赋值）这个词在 TypeScript 的错误信息中经常出现。在值集合的上下文中，它的含义可以是：
 
-由于代码的输出与类型检查是独立的，因此即使代码存在类型错误，仍然可以生成 JavaScript 代码并执行。
-
-```bash
-$ cat test.ts
-let x = 'hello';
-x = 1234;
-
-$ tsc test.ts
-test.ts:2:1 - error TS2322: Type 'number' is not assignable to type 'string'.
-
-2 x = 1234;
-  ~
-
-$ cat test.js
-var x = 'hello';
-x = 1234;
-```
-
-如果你熟悉 C 或 Java 这类语言，可能会觉得惊讶，因为这些语言的类型检查和代码输出是紧密相关的。
-
-你可以把 TypeScript 的所有错误看作这些语言中的警告：**它们很可能提示了一个问题，值得关注和修复，但不会阻止代码的构建。**
-
-> **编译与类型检查**
->
-> 这可能是 TypeScript 社区中一些用词不严谨的来源。你经常会听到有人说他们的 TypeScript “无法编译”，实际上他们的意思是代码有错误。但这在技术上并不准确！
->
-> 严格来说，只有代码生成才算“编译”。只要你的 TypeScript 代码是合法的 JavaScript（甚至很多时候即使不是），TypeScript 编译器仍然会生成输出。
->
-> 尽管这样说可能显得有些较真，但更准确的说法应该是 **“代码有错误”** 或 **“无法通过类型检查”**。
-
-即使存在错误，TypeScript 仍然会生成代码，这在实际开发中是有帮助的。如果你在构建一个 Web 应用，你可能知道某个部分存在问题。但由于 TypeScript 仍会生成代码，你可以先测试其他部分，而不必等到所有错误修复后再运行应用。
-
-尽管如此，在提交代码时，还是应尽量确保零错误。否则，你可能会陷入需要记住哪些错误是预期的，哪些是意外的困境。
-
-如果想在有错误时禁止生成代码，可以在 _tsconfig.json_ 中启用 `noEmitOnError` 选项，或者在你的构建工具中使用等效的配置。
-
-### 类型操作不能影响运行时的 Value
-
-假设你有一个变量，它可能是字符串或数字，并且你希望将其规范化为始终是数字。下面是一个类型检查器会接受的错误尝试：
+- 对于值和类型的关系，表示“属于”（member of）。
+- 对于两个类型的关系，表示“子集”（subset of）。
 
 ```ts
-function asNumber(val: number | string): number {
-  return val as number
-}
+const a: AB = 'A' // OK, value 'A' is a member of the set {'A', 'B'}
+const c: AB = 'C'
+//    ~ Type '"C"' is not assignable to type 'AB'
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAQwM4DkQFsBGBTAJwAoA3ZAGwC5Ext8DEAfRVKAmMAcwEprbdCiAN4AoRIgJ4oIAkjLkUqGnUIBuEQF8RQA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/C4TwDgpgBAggQlAvFA5DFUA+q4oNwBQokscAjAExKrpY4baWEDGA9gHYDOwUAhgFylqafFCgB6cVADyAaQA0UAG68ANgFdoIqAEtOfKAFsIhgEYQATlFYAzKMAAW0ThB4BvEYpS4AvgTZcPMyC8MIAwvgEkmJiAH5QACrgWgBEYSkYelDsrDy8nJw6AObsvKaq0MCs9sk0uARAA)
 
-在生成的 js 代码中可以清楚的看到这个代码的意图:
-
-```js
-function asNumber(val) {
-  return val
-}
-```
-
-这里并没有发生任何转换。`as number` 是一个类型操作，因此它无法影响代码的运行时行为。要规范化这个值，你需要检查它的运行时类型，并使用 JavaScript 的构造进行转换：
+类型 `"C"` 是一个字面量类型，它的“domain”（取值范围）只包含单个值 `"C"`。这个“domain”（取值范围）并不是类型 `"AB"`（包含 `"A"` 和 `"B"` 这两个值）的子集，所以会报错。归根结底，TypeScript 的类型检查器本质上就是在判断一个集合是否是另一个集合的子集。
 
 ```ts
-function asNumber(val: number | string): number {
-  return Number(val)
-}
+// OK, {"A", "B"} is a subset of {"A", "B"}:
+const ab: AB = Math.random() < 0.5 ? 'A' : 'B'
+const ab12: AB12 = ab // OK, {"A", "B"} is a subset of {"A", "B", 12}
+
+declare let twelve: AB12
+const back: AB = twelve
+//    ~~~~ Type 'AB12' is not assignable to type 'AB'
+//           Type '12' is not assignable to type 'AB'
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAQwM4DkQFsBGBTAJwAoA3ZAGwC5Ext8DEAfRVKAmMAcwEprbdCiAN4AoRIgJ4oIAkkwDiZctwDcIgL4igA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/C4TwDgpgBAggQlAvFA5DFUA+q4oNwBQokscAjAExKrpY4baWED0zUA8gNIA0UA3gCIYA3gLgCAvlACWAZygBDKLICuAI1kRgUAPYAzfkJFQxkgFwEAxjoB2s7QrVnS1ALILgACwB0AJwU2ACY6ALYAFACUUAA8UAAM3gCsUAD8NBjOKLiE1nYOapTO8JTUjnhQUKwcPIbCouJScorK6pra+rXGpryUEgQEgRCWADYKvtDDWlDAAO4QwwBuEEXkFDm29lBqCpYA1ivUs-NLLGwVUAB+VxdQACrg0GirGE02Og6ystIA5jaOk9MdNMHjRcAQqudIed7iQUJQXvI3h8vr9-tBgEDiI94CgCEA)
 
-“as number” 是一个类型断言，有时被不准确地称为“强制转换”。关于何时适合使用类型断言，请参见第 9 条。
-
-### 运行时类型可能与声明的类型不同
-
-可以看一下，下面这个函数会运行到`console.log`吗？
+这些类型的集合相对容易推理，因为它们是有限的。你可以逐个比较元素。但在实践中使用的大多数类型具有无限“domain”（取值范围）。对它们的推理会更困难。你可以将它们视为通过列出其元素构建的。
 
 ```ts
-function setLightSwitch(value: boolean) {
-  switch (value) {
-    case true:
-      turnLightOn()
-      break
-    case false:
-      turnLightOff()
-      break
-    default:
-      console.log(`I'm afraid I can't do that.`)
-  }
-}
+type Int = 1 | 2 | 3 | 4 | 5 // | ...
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABFEAnMAZGBzAFlAeTAAoBKRAbwF8AoUSWBZNTHfA4YMy2+6eJAGcAplCx4oAZQDuMKBFzEAbgEMANiGEAuRACM4cNcJVhyFGokSDZ83ImXrNZi5cQQVI5Kk1aXr5uji7CSkANx+rrqoxgDW4f7unsDqIr7+liiBbIScZPHpUbH5lgAmwskgalBp6RAIgobCAHRqcNjEAAYAkgDkALaIKsCoKjAliF1uJj1QiCVwyLgqUE0dYS60tEA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/C4TwDgpgBAkgdsKBeKBGKAfKAmTUDMeALHgKxQD0FeAdHQFBA)
 
-TypeScript 通常会自动检测无效代码，但在这种情况下即使开启了严格模式选项也不会报错。那如何触发这个代码路径呢？
-
-关键在于理解 `boolean` 是类型声明。它是 TypeScript 的类型注解，在代码运行时会被擦除。但在实际的 JavaScript 环境中，用户也可能会传入一个像 `"ON"` 这样的值来调用 `setLightSwitch`，从而触发这个默认情况。
-
-在纯 TypeScript 中，也有可能触发这个代码路径。例如，函数可能是用来自网络请求的值来调用的：
+或者可以通过描述其成员来构建：
 
 ```ts
-interface LightApiResponse {
-  lightSwitchValue: boolean
-}
-async function setLight() {
-  const response = await fetch('/light')
-  const result: LightApiResponse = await response.json()
-  setLightSwitch(result.lightSwitchValue)
+interface Identified {
+  id: string
 }
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABFEAnMAZGBzAFlAeTAAoBKRAbwF8AoUSWBZNTHfA4YMy2+6eJAGcAplCx4oAZQDuMKBFzEAbgEMANiGEAuRACM4cNcJVhyFGokSDZ83ImXrNZi5cQQVI5Kk1aXr5uji7CSkANx+rrqoxgDW4f7unsDqIr7+liiBbIScZPHpUbH5lgAmwskgalBp6RAIgobCAHRqcNjEAAYAkgDkALaIKsCoKjAliF1uJj1QiCVwyLgqUE0dYS60tDBgUMKoyRDCiEFQAIIADjAASsKC5-VH5pZq2TJyCgBqjtp6BkYm4VoHgAnpBEHxGEJRCduE83PVZtE7g9EABeQbSUazYCiBTEHoAeheEh660sdTAgkRt0q1WO2Qu11u90pR3RKkxckQSJZIiaACsGiF8iIxK8bHikbSWuL3rgvhphOtaEA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgJIBMLmDYF3IDeAUMssOgFzIDOYUoA5gNzEC+xQA)
 
-上面的代码声明了 `/light` 请求的返回结果是 `LightApiResponse`，但实际上并没有任何机制强制执行这个约定。如果开发人员误解了这个请求 API，实际返回的 `lightSwitchValue` 结果实际上是一个字符串，那么在运行时，`setLightSwitch` 可能会接收到一个字符串。或者，这个请求 API 在生产环境中发生了变更，都可能产生意外结果。
+可以把这个接口理解为对其类型“domain”（取值范围）的描述：这个值是一个对象吗？它是否有一个 `id` 属性，并且该属性的值可以赋给 `string` 类型？如果是，那它就是 `Identified` 类型。
 
-当运行时的类型与声明的类型不匹配时，TypeScript 可能会变得相当令人困惑。因此，应该尽量避免这些所谓的“不健全”（unsound）类型。但请注意，变量 Value 的运行时类型可能与声明的类型不同。关于类型健全性的问题，请参考第 48 条。
+这就是它的全部含义。正如第 4 条所解释的，TypeScript 采用结构化类型系统，因此这个值还可以包含其他属性，甚至可以是一个可调用的对象！不过，在某些情况下，过多的额外属性检查（见第 11 条）可能会让这一点变得不那么明显。
 
-### 基于 TS 的函数无法被重载
-
-像 C++ 这样的语言允许你定义多个仅参数类型不同的函数版本，这被称为“函数重载”（function overloading）。
-
-但由于 TypeScript 代码的运行时行为与其类型无关，这种机制在 TypeScript 中是不可行的：
+将类型视为值的集合，有助于你更好地理解它们的操作方式。例如：
 
 ```ts
-function add(a: number, b: number) {
-  return a + b
+interface Person {
+  name: string
 }
-//       ~~~ Duplicate function implementation
-function add(a: string, b: string) {
-  return a + b
+interface Lifespan {
+  birth: Date
+  death?: Date
 }
-//       ~~~ Duplicate function implementation
+type PersonSpan = Person & Lifespan
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAQwCaoBTIFyLCAWwCMBTAJwBpEjd9jyBKRAb0TJKhDKWUQGpqAbkQBfAFAB6CYhmzEAP0WIAIiAAOAGxgRkUEolCRYCRDAKaSBEmCi74YMYej2U6LLgDOUMjDABzKhpELx9-JlZ2Tm4UfiFRSWk5GUV5FXUtHT0DcGcTMwsrGzsEMSA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgJIBMLmDYF3IDeAUMssOgFzIDOYUoA5gNzEC+xoksiKACtBoB7EEVLIQcALYRqdBiBbtO4aPCTIAMjgg0ADnFEkyAI2BQwAC2oAROJFZlM9ywH5b9iKw5gAnnv5BEQBlA1EAXmQBKGFRADItHX1DViA)
 
-不过实际上，TypeScript 确实提供了函数重载的机制，但它完全作用于类型层面。你可以为一个函数提供多个类型签名，但只能有一个具体的实现：
+`&` 运算符计算的是两个类型的交集。那么，什么样的值属于 `PersonSpan` 类型呢？乍一看，`Person` 和 `Lifespan` 接口没有共同的属性，因此你可能会认为它是一个空集合（即 `never` 类型）。但实际上，类型操作是作用于值的集合（即类型的“domain”），而不是接口中的属性。而且要记住，具有额外属性的值仍然属于某个类型。因此，一个同时拥有 `Person` 和 `Lifespan` 属性的值将属于交集类型。
 
 ```ts
-function add(a: number, b: number): number
-function add(a: string, b: string): string
-
-function add(a: any, b: any) {
-  return a + b
-}
-
-const three = add(1, 2)
-//    ^? const three: number
-const twelve = add('1', '2')
-//    ^? const twelve: string
+const ps: PersonSpan = {
+  name: 'Alan Turing',
+  birth: new Date('1912/06/23'),
+  death: new Date('1954/06/07'),
+} // OK
 ```
 
-[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAQwCaoBTIFyLCAWwCMBTAJwBpEjd9jyBKWw0sgbgChRJYEV0suAM5QyMMAHMqNRCLGSms0eImcu4aPCRpMOFGACe03MkMNEAbw6JEZElBBltiANTVOAXw4cICEYigACzsSRABefkwARioAJgZOAHpEmxsAPQB+RF8wfyCQ5noyHz8oAIB3EgAbADdQiJ0MAHIopqom2KaEjmTUxEzs0orquuFlSQ4gA)
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgJIBMLmDYF3IDeAUMssOgFzIDOYUoA5gNzEC+xoksiKACtBoB7EEVLIQcALYRqdBiBbtO4aPCTIAMjgg0ADnFEkyAI2BQwAC2oAROJFZlM9ywH5b9iKw5gAnnv5BEQBlA1EAXmQBKGFRADItHX1DVgQROmQ9Gmpo2NDDZEjjCWlZZAByAEEAGwKAFQBXBUZygBpxMwtrCQgAd2Q7SAAKcoBGAE5RgCYAegAGADYZqYBmcoBKdqcIF2oQPoHPEYmAVgAWeaW5gHYN9rZmMhmZ5AB5AGliIA)
 
-`add` 函数的前两个签名仅提供了类型信息。在 TypeScript 生成 JavaScript 代码时，这些类型签名会被移除，最终只保留函数的具体实现。
+当然，一个值可以拥有比这三个属性更多的属性，但仍然属于该类型！一般规则是：交集类型中的值包含其组成部分中所有属性的联合。
 
-在最终实现中，使用 `any` 类型来定义参数变量并不是理想的做法。我们将在第 52 条讨论如何更好地处理这种情况，以及 TypeScript 函数重载中的一些技巧。
+关于属性交集的直觉是正确的，但这适用于两个接口的并集（union）而非它们的交集（intersection）。
 
-### TypeScript 类型不会影响运行时性能
+```ts
+type K = keyof (Person | Lifespan)
+//   ^? type K = never
+```
 
-由于在生成 JavaScript 代码时，类型和类型操作都会被擦除，因此它们不会影响运行时性能。TypeScript 的静态类型实际上是零成本的。下次如果有人以“运行时开销”为理由反对使用 TypeScript，你就知道如何回应了！
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgJIBMLmDYF3IDeAUMssOgFzIDOYUoA5gNzEC+xoksiKACtBoB7EEVLIQcALYRqdBiBbtO4aPCTIAMjgg0ADnFEkyAI2BQwAC2oAROJFZlM9ywH5b9iKw5gAnnv5BEQBlA1EAXmQBKGFRADItHX1DVj8A5ABpZEiAawhfIRhkAApo2OQAH0SYXTCASlYAekayZAA9V2Q0lCzIkAgAN2hiIA)
 
-不过，有两个需要注意的地方：
+由于 TypeScript 无法确定联合类型中的值必定存在哪些键，因此该联合类型的 `keyof` 结果必然是空集（即 `never` 类型）。或者更正式地说：
 
-- **没有运行时开销，但会有构建时开销。** TypeScript 编译器需要额外的时间进行类型检查和代码转换。TypeScript 团队非常重视编译器性能，通常增量构建速度很快(最新的 TS 已由 Go 进行重写，速度提升显著)。如果编译开销变得显著，你的构建工具可能提供“仅转换”（transpile only）选项，以跳过类型检查。关于编译性能，我们将在第 78 条详细讨论。
-- **为了支持旧版 JavaScript 运行时，TypeScript 可能会引入额外的代码，导致一定的性能开销。** 例如，如果你在代码中使用了生成器函数（generator function），但目标设为 ES5（该版本不支持生成器），`tsc` 会生成一些辅助代码来模拟生成器的行为。这种方式相比原生生成器实现会有一定的性能损失。不过，这种开销与所有 JavaScript “转译器”（transpiler）相同，并不特定于 TypeScript，并且它仍然是与类型无关的，只与目标 JavaScript 版本有关。
+```ts
+// Disclaimer: these are relationships, not TypeScript code!
+keyof (A&B) = (keyof A) | (keyof B)
+keyof (A|B) = (keyof A) & (keyof B)
+```
+
+如果你能直观地理解为什么这些方程成立，那说明你对 TypeScript 类型系统的已经非常熟悉了。
+
+当然更符合开发习惯的写法是使用 `extends` 来定义 `PersonSpan` 类型：
+
+```ts
+interface Person {
+  name: string
+}
+interface PersonSpan extends Person {
+  birth: Date
+  death?: Date
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgArQM4HsTIN4BQyyIcAthAFzIZhSgDmA3AQL4GiSyIrpTYgAygAc4uCAA9IIACYY0mHPiLIARsChgAFtQAicSC2IyIBrQH49BiC3ZA)
+
+把类型看作是值的集合，那么 `extends` 表示什么呢？就像 “assignable to” 一样，你可以把它理解为 “子集”。每个 `PersonSpan` 类型的值必须有一个 `name` 属性，它的值是一个字符串。同时，每个值还必须有一个 `birth` 属性，所以它是一个真正的子集。
+
+虽然 `extends` 通常用于向接口添加字段，但任何匹配基础类型子集的值也可以。这让你能够建模更细致的类型关系：
+
+```ts
+interface NullyStudent {
+  name: string
+  ageYears: number | null
+}
+interface Student extends NullyStudent {
+  ageYears: number
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgHIFcA2mCeBlMdAEwnGQG8AoZZEOAWwgC5kBnMKUAcwG5rk4XCAE0IcKKxYh09AEbRkAH1pZMfAL6VQkWIhQFipMMggAPSCCKs0q-IRJkqNQSLESpM+VA2UgA)
+
+并不是每种语言都允许像这样修改 `ageYears` 的类型，但只要它能赋值给基础类型（`NullyStudent`）中的类型，TypeScript 是允许的。当你考虑这两个接口的“domain”时，这就有意义了。如果你试图扩展 `ageYears` 的类型，反而会得到一个错误：
+
+```ts
+interface StringyStudent extends NullyStudent {
+  //      ~~~~~~~~~~~~~~
+  // Interface 'StringyStudent' incorrectly extends interface 'NullyStudent'.
+  ageYears: number | string
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgHIFcA2mCeBlMdAEwnGQG8AoZZEOAWwgC5kBnMKUAcwG5rk4XCAE0IcKKxYh09AEbRkAH1pZMfAL6VQkWIhQFipMMggAPSCCKs0q-IRJkqNQSLESpM+VA1bw0eEjIBJwgXHaGZGYWVjbY4Q7GTsgA9Mk06cgAftk5ubn8qcgAkn66gQDkwdzxRuXIoAgA9lBQEAhguCbmpDHa-nrI5RhxBgnlAHT8LqLikipyCsrsIbyUmkA)
+
+你可能会听到“子类型”这个术语。这是另一种说法，意味着一个类型的范围是另一个类型范围的子集。可以通过一维、二维和三维向量来理解：
+
+```ts
+interface Vector1D {
+  x: number
+}
+interface Vector2D extends Vector1D {
+  y: number
+}
+interface Vector3D extends Vector2D {
+  z: number
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgGoQWA9lAjAEWQG9kAPALmRAFcBbAI2gG5kBfAKFElkRXUxwAmQhFKQQAEwDOaDNjyESAT0o0GzNp3DR4SWQKgBmEWIiSZ-ecOLIAXqrqMoLDkA)
+
+你可以说 `Vector3D` 是 `Vector2D` 的子类型，而 `Vector2D` 又是 `Vector1D` 的子类型（在类的上下文中，你可以说它是“子类”）。这种关系通常以层级结构表示，但从值的集合角度来看，使用维恩图更合适。
+
+![Two ways of thinking of type relationships: as a hierarchy or as overlapping sets.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202503272329611.png)
+
+通过维恩图可以清楚地看到，即使不使用 `extends` 重写接口，子集/子类型/可赋值性关系依然保持不变。
+
+```ts
+interface Vector1D {
+  x: number
+}
+interface Vector2D {
+  x: number
+  y: number
+}
+interface Vector3D {
+  x: number
+  y: number
+  z: number
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgGoQWA9lAjAEWQG9kAPALmRAFcBbAI2gG5kBfAKFElkRXUxwAmQiQpU6jKCwCelGg2ZtO4aPCRoM2KAGYRZORMWzxCqcgBeB0yw5A)
+
+集合没有改变，所以维恩图也没有改变。
+
+虽然这两种解释对于对象类型都适用，但当你开始考虑字面量类型和联合类型时，集合的解释会变得更直观。
+
+`extends` 关键字也可以出现在泛型类型的约束中，在这种情况下，它也表示“子集”。（第 15 条）
+
+```ts
+function getKey<K extends string>(val: any, key: K) {
+  // ...
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgqA)
+
+扩展 string 类型"意味着什么？如果你习惯于从对象继承的角度思考，这很难解释。你可以定义对象包装类型 `String` 的子类（参见第 10 条），但这似乎并不可取。
+
+从集合的角度思考，任何“domain”（取值范围）是 string 子集的类型都适用。这包括字符串字面量类型、字符串字面量类型的联合类型、模板字面量类型（第 54 条）以及 string 类型本身：
+
+```ts
+getKey({}, 'x') // OK, 'x' extends string
+getKey({}, Math.random() < 0.5 ? 'a' : 'b') // OK, 'a'|'b' extends string
+getKey({}, document.title) // OK, string extends string
+getKey({}, 12)
+//         ~~ Type 'number' is not assignable to parameter of type 'string'
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgrSYcrOTtEByImekBuZWsQB5DOcuESZKjXqNk+9FmxjU0QAWU4oAAsNOkFyOABbVllcRAAGDQBWRAB+RDNOM0R+MwAjK1tVdSdzAoAfUsLiUgpqWgYmP0NAk1E4iBB4sigNWChuVBs7KucvduQ3Zs82n06AoNEARgAmGwV7ZQODgD8jxAAVbAAHVDywAZLUOkKYajA4KAFKShhkME4S8aIKBwRCXTgxQakOiIODAIFXG5mZZMMwKIA)
+
+在上一个错误中，`extends` 变成了“assignable”，但这不会让我们困惑，因为我们知道两者都可以理解为“子集”。
+
+当类型之间的关系不是严格层次化时，集合的解释也更有意义。例如，`string|number` 和 `string|Date` 之间是什么关系？它们的交集是非空的（是 `string`），但它们不是彼此的子类型。尽管这些类型不适合严格的层次结构，它们的范围关系仍然清晰。
+
+![Union types may not t into a hierarchy but can be thought of in terms of sets of values](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202503272334242.png)
+
+将类型视为集合的思考方式也能澄清数组和元组之间的关系。例如：
+
+```ts
+const list = [1, 2]
+//    ^? const list: number[]
+const tuple: [number, number] = list
+//    ~~~~~ Type 'number[]' is not assignable to type '[number, number]'
+//          Target requires 2 element(s) but source may have fewer
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgogJaibjCMBeRAG0AjKIBMAXQDcCtcuUA9APyIDYIya0-GAgALYARqh0lg76hlCIUCAADtyo-JYhEVGiWZF0DogWgVAubu4AflVViAAq2MmoiADkeVExzYimiGBwCZyUlDDIYJzhaYlwiQ1NzZlh+bkLUQ7Nrurum8q1nHRoCXSoAI4gMIfUdoRpoWRQrJSy4SAJlHAgdBBNoZzYiAAWnHYTWAqAA7lEFEA)
+
+是否存在不是数字对的元组？当然！空数组和`[1]`就是例子。因此`number[]`不能赋值给`[number, number]`是合理的，因为它不是后者的子集（反向赋值是可行的）。
+
+三元组能赋值给二元组吗？从结构类型角度思考，你可能会认为可以。一个二元组有 0 和 1 个键，那它是不是也可能有其他键（比如 2）？
+
+```ts
+const triple: [number, number, number] = [1, 2, 3]
+const double: [number, number] = triple
+//    ~~~~~~ '[number, number, number]' is not assignable to '[number, number]'
+//           Source has 3 element(s) but target allows only 2.
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgogJaiejAAO3VPwDaYEAFsARqjqjbj56-tO6AXUQBeRCsARlEAJlEAZh8Abn1DKERyOBAHC2s3b093XwDjBnNUOLVlZQA-CsrEAHIbLw9ETIam32rEGGowOETOSkoYZDBONNRjOBq6nOzvH2qFEtLF0oBlFLoIUYALXsRIwgs7MihWSlkHEESoTjo0Hu5uOAB3agRubEQwjQUgA)
+
+答案是"不能"，这里有个有趣的原因。TypeScript 并非将数字对建模为`{0: number, 1: number}`，而是建模为`{0: number, 1: number, length: 2}`。这很合理：你可以检查元组的长度，这也阻止了此类赋值。
+
+TypeScript 会不断进行可赋值性检查，正如你已经多次看到的那样，这是一种子集/子类型关系。有趣的是，TypeScript 很少检查类型完全相等。这使得为类型编写测试变得具有挑战性，这点将在第 55 条讲到。
+
+如果最好将类型视为值的集合，那么意味着具有相同值集合的两个类型是相同的。事实上，除非两个类型在语义上不同，且恰好具有相同的范围，否则没有理由重复定义相同的类型。
+
+与`never`（空类型）完全相反的是`unknown`。这种类型的“domain”（取值范围）包含 JavaScript 中的所有值。所有类型都可赋值给`unknown`。由于它位于类型层次结构的顶端，被称为"顶层类型"。第 46 条将介绍如何在代码中使用`unknown`类型。
+
+最后值得注意的是，并非所有值集合都对应 TypeScript 类型。TypeScript 没有表示所有整数的类型，也没有表示仅包含 `x` 和 `y` 属性的对象类型。有时可以使用`Exclude`来减少类型，但只有当结果是一个有效的 TypeScript 类型时才可以：
+
+```ts
+type T = Exclude<string | Date, string | number>
+//   ^? type T = Date
+type NonZeroNums = Exclude<number, 0>
+//   ^? type NonZeroNums = number
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgqjYADqkQAVRAF5EAUSIRuIcqly0GTAD4ARTqVGvGyO5gIAC2AEaodMwA3ApqyogAegD8iAbGZpaI3qT6RiYAcggAWpFwBaHUVrb2js7B4ZGiAAwxcerKKWn5iEVgpXTllVkNEXQKQA)
+
+下面表格总结了 TypeScript 术语与集合论术语之间的对应关系。
+
+| TypeScript 术语       | 集合论术语        |
+| --------------------- | ----------------- |
+| never                 | ∅（空集合）       |
+| 字面量类型            | 单元素集合        |
+| 可以赋值给 T 的 Value | Value ∈ T（属于） |
+| T1 可以赋值给 T2      | T1 ⊆ T2（子集）   |
+| `T1 extends T2`       | T1 ⊆ T2（子集）   |
+| `T1\|T2`              | T1 ∪ T2（并集）   |
+| `T1 & T2`             | T1 ∩ T2（交集）   |
+| unknown               | 全集              |
+
+这种解释有一个重要的注意事项：当你将值视为不可变时效果最佳。例如，以下两种类型有什么区别？
+
+```ts
+interface Lockbox {
+  code: number
+}
+interface ReadonlyLockbox {
+  readonly code: number
+}
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgsak6wThFSIAMnAhiARnCLyliCHHKp+YEAFsbqOgG5dfTBDY1NEACVUTnIEbmxLazsHRWU6aNiweOdXd0RPHz9AvSA)
+
+这两种类型的取值范围完全相同，但它们在实际使用中是可区分的：
+
+```ts
+const box: Lockbox = { code: 4216 }
+const robox: ReadonlyLockbox = { code: 3625 }
+box.code = 1234 // ok
+robox.code = 1234
+//    ~~~~ Cannot assign to 'code' because it is a read-only property.
+```
+
+[💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/GYVwdgxgLglg9mABAcwKZQNKoJ4B4OKoAeUqYAJgM6KVQBOMYyAfABQBuAhgDYBcinMNgA0iANY5+GAJSIA3gChEiAPQrEAOi0KAvgsak6wThFSIAMnAhiARnCLyliCHHKp+YEAFsbqOgG5dfTBDY1NEACVUTnIEbmxLazsHRWU6aNiweOdXd0RPHz9AvRcwWkRk-kTbe0QAXnkct34AFgAmAEYANkQdQNLyujhKyIy4hKsahwa5JryAZi62gFZewOSNFzd6xA62+Zb-ZTVEODEFIY2tswa9g8CT5UQAP1fnxABhQTA4KAFKSgwZBIKBwRAAcmu4IqqAgnBAlDMMD+MGonEQ6RiAFpxogAA5DPF+KDYDQKIA)
+
+因此，你有时也会听到这种观点：“类型是值的集合，以及你可以对它们执行的操作。” 第 14 条会更详细地讨论 `readonly`，但总体而言，当你使用不可变值时，类型检查器会更有效。
 
 ## 关键点总结
 
-- **代码生成与类型系统是独立的。** 这意味着 TypeScript 的类型不会影响代码的运行时行为。
-- **即使程序存在类型错误，仍然可能生成 JavaScript 代码（即“编译”仍会进行）。**
-- **TypeScript 类型在运行时不可用。** 如果需要在运行时获取类型信息，必须通过某种方式重新构造它，例如使用**标签联合（tagged union）**或**属性检查（property checking）**。
-- 有些结构，比如 `class`，会同时产生 TypeScript 的类型和一个运行时可用的值。
-- **TypeScript 类型在编译时会被移除，因此不会影响代码的运行时性能。**
+- 将类型看作值的集合（即类型的范围）。这些集合可以是有限的（例如 `boolean` 或字面量类型），也可以是无限的（例如 `number` 或 `string`）。
+- TypeScript 的类型是相交集合（可以用维恩图表示），而不是严格的层次结构。两个类型可以有重叠部分，但互相并不是子类型。
+- 即使一个对象有额外的属性，而这些属性没有在类型声明中提到，它仍然可以属于该类型。
+- 类型操作适用于集合的范围。例如，`A | B` 的范围是 `A` 和 `B` 的并集。
+- 将 `extends`、"assignable to" 和 "subtype of" 理解为 "子集" 的同义词。
