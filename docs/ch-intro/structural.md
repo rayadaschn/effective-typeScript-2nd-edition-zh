@@ -19,7 +19,7 @@ JavaScript 提倡“**鸭子类型（duck typing）**”：如果一个值具有
 
 但这有时会导致意想不到的结果，因为 TypeScript 的类型检查可能比你的预期更宽松或严格。理解**结构类型系统**可以帮助你更好地理解 TypeScript 的错误（或非错误），并编写更健壮的代码。
 
-假设你现在正在开发一个 tscript 库，需要定义一个二维向量类型 `Vector2D`：
+假设你现在正在开发一个 tsScript 库，需要定义一个二维向量类型 `Vector2D`：
 
 ```ts
 interface Vector2D {
