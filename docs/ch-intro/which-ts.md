@@ -2,15 +2,15 @@
 
 ## 要点
 
-- TypeScript 编译器有多个设置，会影响语言的核心特性。
+- TypeScript 编译器有多个设置，会影响到 ts 的校验规则。
 - 使用 **tsconfig.json** 配置 TypeScript，而不是命令行参数。
-- 除非是在将 JavaScript 项目迁移到 TypeScript，否则应开启 `noImplicitAny`，避免隐式的 `any` 类型。
+- 除非是在将 JavaScript 项目迁移到 TypeScript，否则应当开启 `noImplicitAny`，以避免隐式的 `any` 类型。
 - 开启 `strictNullChecks`，防止运行时报出 “undefined 不是对象” 这类错误。
 - 建议启用 `strict`，享受 TypeScript 最全面的类型检查。
 
 ## 正文
 
-请看下面这段代码是否通过了 TypeScript 的编译？
+例如，请判定下面这段代码是否通过了 TypeScript 的编译？
 
 ```ts
 function add(a, b) {
@@ -21,7 +21,7 @@ add(10, null)
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&noImplicitAny=false&strictNullChecks=false#code/GYVwdgxgLglg9mABAQwCaoBTIDSIEYCUiA3gFCKIBOAplCJUsogNT4DcpAvqWpgIwAGXGBAAbUQQ5A)
 
-如果不知道你用了哪些配置选项，是无法给出确定答案的！TypeScript 编译器有非常多的配置选项，截至目前为止，已经超过一百个了。
+如果不知道用了哪些配置选项，是无法给出确定答案的！TypeScript 编译器有非常多的配置选项，截至目前为止，已经超过一百个了。
 
 这些选项可以通过命令行设置：
 
@@ -39,7 +39,7 @@ $ tsc --noImplicitAny program.ts
 }
 ```
 
-推荐使用配置文件，这样可以确保你的同事和工具都清楚你打算如何使用 TypeScript。你可以通过运行 `tsc --init` 来创建配置文件。
+推荐使用配置文件，这样可以确保你的同事和工具都能准确的判定 TypeScript 将会如何运行。你可以通过运行 `tsc --init` 来创建配置文件。
 
 TypeScript 的很多配置选项用于控制它在哪里查找源文件，以及生成什么样的输出。但有一部分配置会影响语言本身的核心特性。这些属于高层设计决策，大多数语言并不会把这些决定交给用户。TypeScript 的配置不同，使用体验也会大不相同。想要用好 TypeScript，你需要重点理解其中两个关键设置：`noImplicitAny` 和 `strictNullChecks`。
 
@@ -89,7 +89,7 @@ TypeScript 在拥有类型信息时才能发挥最大作用，因此应尽量开
 
 ## `strictNullChecks`
 
-`strictNullChecks` 选项会影响 TypeScript 如何处理 `null` 和 `undefined`。默认情况下，`strictNullChecks` 为 false，`null` 和 `undefined` 可以赋值给任何类型：
+`strictNullChecks` 选项会影响 TypeScript 如何处理 `null` 和 `undefined`。默认情况下，`strictNullChecks` 为 `false`，`null` 和 `undefined` 可以赋值给任何类型：
 
 ```ts
 const x: number = null // OK, null is a valid number
@@ -131,7 +131,8 @@ statusEl!.textContent = 'Ready' // OK, we've asserted that el is non-null
 
 用 `if` 语句进行类型判断的方式称为“类型收窄”或“类型细化”，这个模式会在第 22 条中讲到。最后一行的 `!` 被称为“非空断言”。类型断言在 TypeScript 中有其作用，但也可能导致运行时异常，第 9 条会讲什么时候该用、什么时候不该用类型断言。
 
-`strictNullChecks` 对于捕获涉及 `null` 和 `undefined` 的错误非常有用，但确实会增加一些使用难度。如果你是新建项目，并且有一定 TypeScript 经验，建议开启 `strictNullChecks`。  
+`strictNullChecks` 对于捕获涉及 `null` 和 `undefined` 的错误非常有用，但确实会增加一些使用难度。如果你是新建项目，并且有一定 TypeScript 经验，建议开启 `strictNullChecks`。
+
 但如果你刚接触 TypeScript 或正在迁移 JavaScript 代码，可以先不开启。不过一定要先开启 `noImplicitAny`，再考虑开启 `strictNullChecks`。
 
 如果你选择不启用 `strictNullChecks`，要特别注意常见的 “undefined is not an object” 运行时错误。每遇到一次，都可以提醒你：是时候考虑开启更严格的检查了。项目越大，切换这个设置越困难，所以不要拖太久。大多数 TypeScript 代码都会启用 `strictNullChecks`，这也是你最终应该迈向的方向。
@@ -176,8 +177,8 @@ tenses[0].toUpperCase()
 
 ## 关键点总结
 
-- TypeScript 编译器有多个设置，会影响语言的核心特性。
+- TypeScript 编译器有多个设置，会影响到 ts 的校验规则。
 - 使用 **tsconfig.json** 配置 TypeScript，而不是命令行参数。
-- 除非是在将 JavaScript 项目迁移到 TypeScript，否则应开启 `noImplicitAny`，避免隐式的 `any` 类型。
+- 除非是在将 JavaScript 项目迁移到 TypeScript，否则应当开启 `noImplicitAny`，以避免隐式的 `any` 类型。
 - 开启 `strictNullChecks`，防止运行时报出 “undefined 不是对象” 这类错误。
 - 建议启用 `strict`，享受 TypeScript 最全面的类型检查。
