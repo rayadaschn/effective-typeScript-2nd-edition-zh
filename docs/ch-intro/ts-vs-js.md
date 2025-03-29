@@ -1,4 +1,4 @@
-# 理解 TypeScript 与 JavaScript 的关系
+# 第 1 条：理解 TypeScript 与 JavaScript 的关系
 
 ## 要点
 
@@ -70,7 +70,7 @@ console.log(city.toUppercase())
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/DYUwLgBAxglmCeEC8EDkA7EB3C8D2ATgNbRzyoDcAUFHugM56gB0weA5gBSwLNh4BVAA5CQBKAEN6ITgEpZ1APSKIqteo0A-bTt2aIABQJ5RBBGn7DTk6aggATPCHoR0eSCAAeMepDoQEUSplDVCw8LRfAhh0dlRmCAARGHtcPABXCABbEAl0C0ERMQBhKRBUAH4qIA)
 
-而在 Typescript 中你并不需要注明 `city` 的类型是 `string`，它会根据初始值自动推断出来。**类型推断是TypeScript的一个关键特性**，第 3 节中会讲到。
+而在 Typescript 中你并不需要注明 `city` 的类型是 `string`，它会根据初始值自动推断出来。**类型推断是 TypeScript 的一个关键特性**，第 3 节中会讲到。
 
 TypeScript 类型系统能够在**不运行代码的前提下**，检测出那些在运行时可能会抛出异常的代码。所以当你听到 TypeScript 被称为“静态”类型系统时，说的正是这种能力。
 

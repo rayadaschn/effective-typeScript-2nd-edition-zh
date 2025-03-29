@@ -1,4 +1,4 @@
-# Item 10: Avoid Object Wrapper Types (String, Number, Boolean, Symbol, BigInt)
+# 第 10 条: 避免使用对象包装类型（String, Number, Boolean, Symbol, BigInt）
 
 ## 要点
 

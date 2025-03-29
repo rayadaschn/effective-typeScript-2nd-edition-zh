@@ -1,4 +1,4 @@
-# Item 12: Apply Types to Entire Function Expressions When Possible
+# 第 12 条：尽可能为整个函数表达式提供类型
 
 ## 要点
 

@@ -1,4 +1,4 @@
-# Item 8: Know How to Tell Whether a Symbol Is in the Type Space or Value Space
+# 第 8 条: 了解符号处于类型空间还是值空间
 
 ## 要点
 

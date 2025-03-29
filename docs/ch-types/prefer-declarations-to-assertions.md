@@ -1,4 +1,4 @@
-# Item 9: Prefer Type Annotations to Type Assertions
+# 第 9 条: 优先使用类型注解而非类型断言
 
 ## 要点
 
