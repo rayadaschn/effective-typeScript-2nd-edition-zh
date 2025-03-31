@@ -7,6 +7,70 @@
 - 了解 `interface` 的声明合并和 `type` 的类型内联。
 - 对于没有既定风格的项目，优先使用 `interface` 来定义对象类型。
 
+::: Details 相同点和不同点
+**相同点:**
+
+- 都能描述一个对象结构
+- 都能被 class 实现
+- 都能被扩展
+
+```ts
+// 接口
+interface User {
+  name: string
+  age: number
+  getName: () => string
+}
+
+// 自定义类型
+type UserType = {
+  name: string
+  age: number
+  getName: () => string
+}
+
+// class UserClass implements User {
+class UserClass implements UserType {
+  name = 'x'
+  age = 20
+  getName() {
+    return this.name
+  }
+}
+```
+
+**不同点:**
+
+- type 可以声明基础类型
+- type 有联合类型和交差类型
+- type 可以被 typeof 赋值
+
+```ts
+// type 基础类型
+type name = string
+type list = Array<string>
+
+// type 联合类型
+type info = string | number
+
+type T1 = { name: string }
+type T2 = { age: number }
+// interface T2 { age: number  } // 联合，还可以是 interface ，乱吧...
+type T3 = T1 | T2
+const a: T3 = { name: 'x' }
+type T4 = T1 & T2
+const b: T4 = { age: 20, name: 'x' }
+
+// typeof 获取
+type T5 = typeof b
+
+//【补充】还有个 keyof ，它和 typeof 完全不同，它是获取 key 类型的
+type K1 = keyof T5
+const k: K1 = 'name'
+```
+
+:::
+
 ## 正文
 
 如果你想在 TypeScript 中定义一个具名类型，有两种选择。你可以使用类型别名 type，如下所示：
