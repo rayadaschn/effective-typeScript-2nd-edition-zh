@@ -251,7 +251,7 @@ type NamedVariable = (Input | Output) & { name: string }
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/C4TwDgpgBAkgdmArsKBeKBvKB6AVFAOiKl2ygF8BuAKFEigHlkkV0s9DjSKaBLOYBABOAMwCGAY2gA1MUN5iARgBsIAWTFhM1KFADacMQFsIALigBnYPLgBzALrn4LKAB9GzZDXK1w0AHLGEAAmsvJKqmhQABTOyG4ewCwAlFAAZJhQhibmVja2PNRAA)
 
-这个类型无法通过接口来表达。一般来说，类型比接口更强大。它可以是联合类型，还可以利用一些高级的类型特性，比如映射类型（第 15 条）和条件类型（第 52 条）。
+这个 type 无法通过 interface 来表达。一般来说，type 比 interface 更强大。它可以是联合类型，还可以利用一些高级的类型特性，比如映射类型（第 15 条）和条件类型（第 52 条）。
 
 `interface` 和 `extends` 比 `type` 和 `&` 提供了更多的错误检查。
 
