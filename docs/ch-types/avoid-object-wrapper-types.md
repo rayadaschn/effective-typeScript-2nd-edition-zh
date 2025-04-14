@@ -125,3 +125,8 @@ const b: Boolean = true
 这里的 `BigInt` 和 `Symbol` 是生成值的函数，返回的是 `bigint` 和 `symbol` 类型的值，而不是 TypeScript 类型（参考第 8 条）。你也可以直接在数字后面加个 `n` 来创建 bigint，比如 `123n`。
 
 如果你的项目用了 `typescript-eslint`，其中的 `ban-types` 规则会禁止使用包装对象类型。这在 `@typescript-eslint/recommended` 配置中是默认启用的。
+
+## 关键点总结
+
+- 避免使用 TypeScript 的对象包装类型，优先使用原始类型：用 `string` 代替 `String`，`number` 代替 `Number`，`boolean` 代替 `Boolean`，`symbol` 代替 `Symbol`，`bigint` 代替 `BigInt`。
+- 理解对象包装类型的作用是为原始值提供方法，避免直接实例化或使用它们，`Symbol` 和 `BigInt` 是例外。
