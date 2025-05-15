@@ -1,4 +1,4 @@
-# Item 16: Prefer More Precise Alternatives to Index Signatures
+# 第 16 条: 优先使用更精确的索引签名替代方案
 
 ## 要点
 
@@ -6,6 +6,8 @@
 - 能不用索引签名时，优先选择更精确的类型：`**interface**s`、`Map`、`**Record**s`、映射类型，或限制了键名范围的索引签名。
 
 ## 正文
+
+JavaScript 最棒的特性之一就是它创建对象的便捷语法：
 
 ```ts
 const rocket = {
@@ -17,7 +19,7 @@ const rocket = {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/MYewdgzgLgBATiYBrAprAvDA3gKBjMAQwFsUAuGAcgDFCAbUMGATkoBo8YA3QuAS0JgoFSgCE6iJDACs7TlAAWcAK7QRAdjYA2AAzqYSAHJyAvgG4cQA)
 
----
+JavaScript 中的对象将字符串（或符号）键映射到任何类型的值。TypeScript 允许你通过在类型上指定索引签名来表示这样的灵活映射：
 
 ```ts
 type Rocket = { [property: string]: string }

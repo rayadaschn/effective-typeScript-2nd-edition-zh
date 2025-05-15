@@ -1,4 +1,4 @@
-# Item 15: Use Type Operations and Generic Types to Avoid Repeating Yourself
+# 第 15 条: 利用类型运算和泛型减少重复
 
 ## 要点
 
@@ -245,13 +245,25 @@ type TopNavState = {
 
 将鼠标悬停在 `TopNavState` 上时，你会发现这个定义实际上与之前的完全相同（见图 2-12）。
 
+![Figure 2-12.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202505142345457.png)
+
+映射类型在类型系统中的作用，就像是在数组中遍历字段一样。这个模式非常常见，因此在标准库中有一个内置工具类型专门用于这种情况，它叫做 `Pick`：
+
+```ts
+type Pick<T, K> = { [k in K]: T[k] }
+```
+
+你可以像下面这样使用它:
+
 ```ts
 type TopNavState = Pick<State, 'userId' | 'pageTitle' | 'recentFiles'>
 ```
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMpjpZBvAUM5AVwGdoBJAEwC5liwpQBzAbn2QAc5GIAVYMADYQadBiBZsoEJOABiwIcRH0mAbQC6rAp24BhAPbgI4JbRXjWAX1xgAnuxQ997AHJwAbukwoAvMgAKwAgA1gA8XpAANMgA5CTkFDHIAD6xOrz8QkmpMVIyYPKKMQB8rEA)
 
----
+`Pick` 是泛型类型的一个例子。继续类比代码去重的思路，使用 `Pick` 就像是在调用一个函数。`Pick` 接收两个类型参数：`T` 和 `K`，然后返回第三个类型，就像函数接收两个值并返回一个结果一样。第 6 章将深入讲解类型层级的编程，第 50 条会探讨将泛型类型看作“类型上的函数”这一理念。
+
+另一种重复可能出现在带标签的联合类型中。比如说，你想单独提取出标签字段的类型怎么办？
 
 ```ts
 interface SaveAction {
@@ -268,7 +280,7 @@ type ActionType = 'save' | 'load' // Repeated types!
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMpwG4QIILMAexGQG8AoZZMATwAcIAuZAcgGdMJmBuC5Aej7IAdCLIBfMqEixEKADIE4AE1z4ipXjXpNmAG0VLuvAcNEStKVYWIBeNByvqAPsgXLHIHheQeAKnRQ7Ng5mZBc9A25KEwAlCHo4SCUqANYAQjIgA)
 
----
+你可以通过在 `Action` 联合类型上进行索引，来定义 `ActionType`，而不用重复写类型：
 
 ```ts
 type ActionType = Action['type']
@@ -277,7 +289,7 @@ type ActionType = Action['type']
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMpwG4QIILMAexGQG8AoZZMATwAcIAuZAcgGdMJmBuC5Aej7IAdCLIBfMqEixEKADIE4AE1z4ipXjXpNmAG0VLuvAcNEStKVYWIBeNByvqAPsgXLHIHheQeAKnRQ7DwBtZgtmAF0eE0oAPQB+KgCfPGt-emQ7ACJ2LCzkFyz9ZSyyIA)
 
----
+当你向 `Action` 联合类型中添加更多类型时，`ActionType` 会自动包含它们。这个类型和使用 `Pick` 得到的结果不同，`Pick` 会返回一个带有 `type` 属性的接口类型：
 
 ```ts
 type ActionRecord = Pick<Action, 'type'>
@@ -286,7 +298,7 @@ type ActionRecord = Pick<Action, 'type'>
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMpwG4QIILMAexGQG8AoZZMATwAcIAuZAcgGdMJmBuC5Aej7IAdCLIBfMqEixEKADIE4AE1z4ipXjXpNmAG0VLuvAcNEStKVYWIBeNByvqAPsgXLHIHheQeAShAQCKCVkOwAFYAQAawAeDwAaFgtmAD4eE0oAPQB+KjpLPGt-QODQ0jztZAAidiwq5Bcq-WUqrmQJIA)
 
----
+如果你正在定义一个类，这个类既可以在初始化时设置参数，也可以通过后续的 `update` 方法更新参数，那么 `update` 方法的参数类型很可能是构造函数参数的大部分字段的可选版本：
 
 ```ts
 interface Options {
@@ -313,7 +325,7 @@ class UIWidget {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgPIAczAPYgM7IDeAUMsgO7AAmYAFgFzIgCuAtgEbQDcpytEwAOa0wjFh268E2ADbYojPGCihBPMjLicZi5ap4BfYqEixEKDFlx4AquipxIRXpRq0A-GLaco6vgOEwTyZvSTJpOShgpRUQNV5NbWi9OMNiBE08AhsASQB1akEIMGdw62VmBDB5AApQYFE0TBx8AEoiZAB6ACpkADoB5G7O5CMyZntHCBrsZutGSxbbSch2wi7egb6hkaMjIA)
 
----
+你可以通过映射类型加上 `keyof`，从 `Options` 构造出 `OptionsUpdate`：
 
 ```ts
 type OptionsUpdate = { [k in keyof Options]?: Options[k] }
@@ -321,7 +333,7 @@ type OptionsUpdate = { [k in keyof Options]?: Options[k] }
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgPIAczAPYgM7IDeAUMsgO7AAmYAFgFzIgCuAtgEbQDcpytEwAOa0wjFh268E2ADbYojPGCihBPMjLicZi5ap4BfYmACe6FBiy48AVXRU4kZAF4iAbQDWyUMg8QT2DBomDj4ALoA-IyWoXieYQY8QA)
 
----
+`keyof` 会获取一个类型的所有键，并生成一个联合类型：
 
 ```ts
 type OptionsKeys = keyof Options
@@ -331,7 +343,9 @@ type OptionsKeys = keyof Options
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgPIAczAPYgM7IDeAUMsgO7AAmYAFgFzIgCuAtgEbQDcpytEwAOa0wjFh268E2ADbYojPGCihBPMjLicZi5ap4BfYmACe6FBiy48AaQgmCAXmQBre9hhpMOfDwD0fmTIAHoA-Mim5l5W+HYOyM5uJh7RPnjGZigAShB4sgBuEAA8WXDkAHwJyKXkyBAAHpAgVAQAYswgCDHI4TXIjIQA2jbIoK7unjUAuow1w1MGPJEoAMom4LSWaXFO1bkFxVvWO+X+gWRhEZnIaxtHsfa7AESUNLRPyAA+yE-8QiIfb5PaRyKCAn6abRPYjEIA)
 
----
+映射类型（`[k in keyof Options]`）会遍历这些键，并查找 `Options` 中对应的值类型。`?` 表示每个属性都是可选的。
+
+这个模式也非常常见，在标准库中也有对应的工具类型，叫做 `Partial`：
 
 ```ts
 class UIWidget {
@@ -346,7 +360,7 @@ class UIWidget {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgPIAczAPYgM7IDeAUMsgO7AAmYAFgFzIgCuAtgEbQDcpytEwAOa0wjFh268E2ADbYojPGCihBPMjLicZi5ap4BfYgk14CAVQCSAdWqCIYIlNxKozBGHkAKUMFFpMHHwASiJkAHoAKmQAOjjkSPDkIzJmdCo4SC9sQJdGAAU4KCw4GQAeDCwXAD5QwgjouJiEpKMjIA)
 
----
+映射类型还有一些额外技巧。你可以在其中使用 `as` 子句来重命名键。这种方式有很多用法，其中一个用途是反转一个映射中的键和值：
 
 ```ts
 interface ShortToLong {
@@ -359,7 +373,9 @@ type LongToShort = { [k in keyof ShortToLong as ShortToLong[k]]: k }
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMoAsD2UwBVMAymIA5sgN4BQyyAjgFzIDkAzhHFAukwNzXIhGTEAFcAtgCNoAeRgAlCCxEAbMC16UAvpTABPAA4oipfBmxhkAXgrIA2gGtkoZPYi7MMNFhz5jZOCxe5r7EJA4AuuGMjpp8APRxNMgAegD8yHqGyH6m3hbW5MhsHFyMAES0ZTwC4lJQsgpKqizlIFXI2kA)
 
----
+这种技巧与模板字面量类型（template literal types）配合使用效果尤佳，模板字面量类型允许你在类型层面上操作字符串字面量类型，第 54 条会专门讲这个内容。
+
+如果你的映射类型中的索引部分是 `K in keyof T` 或类似形式，那么 TypeScript 会把它当作“同态映射类型”（homomorphic mapped type）。这意味着原类型中的修饰符（比如 `readonly` 和 `?` 可选）以及文档注释都会被保留到新类型中。
 
 ```ts
 interface Customer {
@@ -379,7 +395,13 @@ type ManualName = { [K in 'name']: Customer[K] }
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&exactOptionalPropertyTypes=true#code/JYOwLgpgTgZghgYwgAgMIFcDOYD2BbaZAbwChlkB6AKiuQAkcB3ZMACxQS1wKmUZ3QAbACbJBwANYpcyAEYo4w4VAiZMEYQDpkVCmRbAwgiAH4AXMmxRQAcwDc+6rVT4ADscjIQcAsjiZkCHBoDWRQFnZLAE9sCDxtXX0VRRwQQSivHwgLK1sHAF8SEjAo1xQABWAECQAVQ2NkAF5kSuqAHgxsfGgAGmQAcjB6iH6APgcKCnJkAD0TFlKKqtrhpuIDI1McsGsQe2RCkrKW5YA5LLXWiQ6ubqg+-u8CMYmp8jmF46vz32aiZGSwlS6UyBG2u32h0WyAAsnAQOg4IIfig-sgANoAaTCIAGTxGAF0LJ1uNAsQS7AdXtMPkcUHCEUiUWt-vjwXkDiQgA)
 
----
+在这个例子中，`Pick` 是一个同态映射类型，它会保留原类型中的 `optional`（可选）和 `readonly`（只读）修饰符。而 `ManualName` 映射类型没有使用 `keyof` 表达式，因此它不是同态的，也不会传递这些修饰符。
+
+如果你用某个同态类型来定义一个值，你会发现连文档注释也被一并保留了（见图 2-13）。
+
+![图 2-13](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202505142351124.png)
+
+同态映射类型还有一个有趣的行为：它们允许原始类型（非对象类型）原样通过，不做任何修改。
 
 ```ts
 type PartialNumber = Partial<number>
@@ -388,7 +410,11 @@ type PartialNumber = Partial<number>
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&exactOptionalPropertyTypes=true#code/C4TwDgpgBACghgJ2ASzgGwHIFcC2AjCBKAXlkRXQB4A7XAhAPgG4AoAejai4D0B+KUJDJJUmOoRJRa+QiyA)
 
----
+这看起来有点奇怪，但在你构建自己泛型类型时，它是非常方便的。
+
+在定义映射类型时，考虑它们是否是同态的，以及你是否希望它们是同态的。
+
+你也可能会发现自己需要定义一个类型，来匹配一个值的形状：
 
 ```ts
 const INIT_OPTIONS = {
@@ -407,7 +433,7 @@ interface Options {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&exactOptionalPropertyTypes=true#code/MYewdgzgLgBAkgOTgFQPoHkAKy7oQZRgF4YBvAKBhgHcBLAEygAsAuGANgBYAGAGkphMAprQDmTKG04AOPgNAAbEACc2AcgDE3bgDEd2tfyoKAhgCMhC9QDUA4gEFD5AL4BucrTBQhygGYngIRh0AAcoWnAIMgE6RlYYMABXAFsLZXcqYTEJNiTUnwyYRRU2aGVPUULTCysYMor3Z3IgA)
 
----
+你可以通过 `typeof` 来做到这一点：
 
 ```ts
 type Options = typeof INIT_OPTIONS
@@ -415,7 +441,11 @@ type Options = typeof INIT_OPTIONS
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&exactOptionalPropertyTypes=true#code/MYewdgzgLgBAkgOTgFQPoHkAKy7oQZRgF4YBvAKBhgHcBLAEygAsAuGANgBYAGAGkphMAprQDmTKG04AOPgNAAbEACc2AcgDE3bgDEd2tfyoKAhgCMhC9QDUA4gEFD5AL4BuclACeAByEx03lC04BDEMF6+IABm8EhoWDh4+O5AA)
 
----
+这看起来有点像 JavaScript 的运行时 `typeof` 操作符，但它是在 TypeScript 类型层面上操作，且精度更高。关于 `typeof` 的更多内容，可以参考第 8 条。不过，使用值来推导类型时要小心。通常，最好先定义类型，再声明值可以赋给这些类型。这样可以让你的类型更明确，并且减少因类型扩展（第 20 条）导致的不确定性。
+
+`typeof` 的经典用例是当你有一个单一的值，且希望这个值成为类型的“真理来源”时（可能它是某种模式或 API 规范）。通过将值作为真理来源，你可以避免在定义类型时的重复。
+
+类似地，你可能希望为函数或方法推断出的返回值创建一个具名类型：
 
 ```ts
 function getUserInfo(userId: string) {
@@ -434,7 +464,7 @@ function getUserInfo(userId: string) {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&exactOptionalPropertyTypes=true#code/MYewdgzgLgBAkgOTgFQPoHkAKy7oQZRgF4YBvAKBhgHcBLAEygAsAuGANgBYAGAGkphMAprQDmTKG04AOPgNAAbEACc2AcgDE3bgDEd2tfyoKAhgCMhC9QDUA4gEFD5AL4BucgDMArmGBRa4DCiQlAAqhBCynBgHiAAFF4RUfRs0Mq0YKIAlGQCAPR5MADC6ACymABKAKL4+PLg0DBgJgC2QsQwagBCIGZq7lSgkLAmwR0AjABMAzBDjcJiEh0yM3Ow1CLisCQA7NyrDbAeJgBuKrRQQkUgSsodamYKXkL9+YVVCAAiAsohXspgXJUKiJSJwehGYHNNqQqijISwwSbCSIjaLKCI45ndKXa63SFuFzkAowCp-AEwKAATwADu0Mh5Ir96DATBAyDBQclUlB0plXE1WkIeXzRAL4WwwF4WhZlLwYAA6JUwZzkchAA)
 
----
+直接这么做需要使用条件类型（见第 52 条）。但是，正如我们之前看到的，标准库为常见模式定义了泛型类型。在这种情况下，`ReturnType` 泛型正好做了你想要的事情：
 
 ```ts
 type UserInfo = ReturnType<typeof getUserInfo>
@@ -442,7 +472,9 @@ type UserInfo = ReturnType<typeof getUserInfo>
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&exactOptionalPropertyTypes=true#code/MYewdgzgLgBAkgOTgFQPoHkAKy7oQZRgF4YBvAKBhgHcBLAEygAsAuGANgBYAGAGkphMAprQDmTKG04AOPgNAAbEACc2AcgDE3bgDEd2tfyoKAhgCMhC9QDUA4gEFD5AL4BucgDMArmGBRa4DCiQlAAqhBCynBgHiAAFF4RUfRs0Mq0YKIAlGQCAPR5MADC6ACymABKAKL4+PLg0DBgJgC2QsQwagBCIGZq7lSgkLAmwR0AjABMAzBDjcJiEh0yM3Ow1CLisCQA7NyrDbAeJgBuKrRQQkUgSsodamYKXkL9+YVVCAAiAsohXspgXJUKiJSJwehGYHNNqQqijISwwSbCSIjaLKCI45ndKXa63SFuFzkAowCp-AEwKAATwADu0Mh5Ir96DATBAyDBQclUlB0plXE1WkIeXzRAL4WwwF4WhZlLwYAA6JUwZzkcjUukwcJgmIgDpkqD-MDIWlCAA8GqEIA8QRC2qiuoAfO4gA)
 
----
+注意，`ReturnType` 是作用于 `typeof getUserInfo`，即函数的类型，而不是 `getUserInfo` 这个函数的值。和 `typeof` 一样，使用这种技术时要谨慎。不要搞混你的“真理来源”。
+
+在抽取类型中的重复时，不要过于极端。仅仅因为两个类型声明在源代码中共享相同的字符，并不意味着它们是相同的。例如，以下这两个类型共享了一些共同的属性：
 
 ```ts
 interface Product {
@@ -459,7 +491,7 @@ interface Customer {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgApQPYBMCuCzIDeAUMssFgFzIg4C2ARtANyk1x0TUDOYUoAc1ZkADvyQARDABtpcKN2q1GLYgF9ioSLEQoAwjl4ZOUImwpL6TKMPacefQbbhYsUCN0XJe-EEPXEQA)
 
----
+如果重构成下面这样，则并不明智：
 
 ```ts
 // Don't do this!
@@ -476,3 +508,18 @@ interface Customer extends NamedAndIdentified {
 ```
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/PTAEBEHsDsHIBdQBNKngCwJYGcCEAoTaeAUwCcAzAQwGMTQA5KgWxKQEFokBJJE4zBUxtQAb3yhQmJAC5Q0AK7MARuQDcE+SxJzs8MkQDmGgL6Fi5anVAAFMpCQKaiEgA9SXbI20cuvfvCCwkhimgAOBnRQADbRVGTYcooq6vhmRKSUtPQAwgp6kKxkoG4eSF5MrL48fAJCIuKSVEhIZCTYiaB6BtDGafhAA)
+
+这是因为，虽然 `id` 和 `name` 属性恰好有相同的名称和类型，但它们并不代表相同的事物。将来，你可能会把一个 `id` 改为字符串类型，而另一个不变。或者你可能会把客户的名字拆分为 `firstName` 和 `lastName`，这对于产品来说就不太合适了。在这种情况下，将公共基接口抽取出来是一个过早的抽象，可能会使得这两个类型在未来更难独立演化。
+
+一个好的经验法则是，如果很难为某个类型（或函数）命名，那么它可能不是一个有用的抽象。在这种情况下，`NamedAndIdentified` 只是描述了类型的结构，而没有描述它到底是什么。而之前提到的 `Vertebrate` 类型则有独立的意义。记住，“重复比错误的抽象便宜得多。”
+
+在类型空间中，重复和复制粘贴的编码问题和在值空间中的问题一样严重。你用来避免类型空间中重复的构造可能比用于程序逻辑的构造更不常见，但它们值得学习。不要重复自己！
+
+## 关键点总结
+
+- DRY（Don’t Repeat Yourself，别重复自己）原则在类型设计中同样适用，就像在业务逻辑中一样。
+- 给类型命名，避免重复定义。可以用 `extends` 来继承接口字段，减少重复。
+- 熟悉 TypeScript 提供的类型映射工具，比如 `keyof`、`typeof`、索引访问和映射类型。
+- 泛型类型就像类型层面的函数，用它们来进行类型转换，而不是重复操作。
+- 熟悉标准库中的常用泛型类型，比如 `Pick`、`Partial` 和 `ReturnType`。
+- 避免滥用 DRY，确保你复用的属性和类型确实是同一个概念。
