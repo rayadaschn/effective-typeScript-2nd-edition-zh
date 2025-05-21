@@ -2,8 +2,6 @@
 
 ## 要点
 
-- Types that represent both valid and invalid states are likely to lead to confusing and error-prone code.
-- Prefer types that only represent valid states. Even if they are longer or harder to express, they will save you time and pain in the end!
 - 代表有效和无效状态的类型容易导致混乱和易错的代码。
 - 优先使用只代表有效状态的类型。即使它们更长或更难表达，最终会为你节省时间和麻烦！
 
