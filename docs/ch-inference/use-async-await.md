@@ -160,11 +160,12 @@ async function fetchWithTimeout(url: string, timeoutMs: number) {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/PTAEAkEkBEFECgDGB7AdgZwC6gK4CcAbARlAF5QByIigbiTS10ICYzLnb6Nt8CBmNhT6cQoWADlo8ACYBTRAQCGeWaABmOVIkwBLNOtmZEACwCqAJQAyACnigmBAFygseHagDmAGlCJFBAgAjRUQAa2drFXQABwZZZ1d3DwBKMgA+UAA3ZB1peGTnbNy6eDVDEwsbXiIfDS1dNEjZGLiiVIBvOwMjMytrXmZazW09VCaWjFlmDq77Mp7K-sI+IfrR8djJvhn7XdBRADoj2d2UDGQCWQOCZA9rNro9gF9kx9OGC6ubu+m3l7ezuhPtdbtZtnR-lwgZcQXcACyveDwUSWW7oRzIsBwzGgPg45g4oilYYNVCgXQAW1kyBwmGslOptIAsujQKgcBTArI8AVQAAFPDICk6dCyAA8qFkmW5GU69hUmHwZMlAHd+YLhaLrOMLtKfCoAFbyTCpUiyk4uQwAFR0VJpdOspoyhuN1goDPtFGSPg9zPQiPskKeSMU6AAnlp1CTRt0TAB1HSYYw2u20pZOFyYNyeH22xmYFnOdmc7k7UAKpXqoUiq54EKyawAbXmJnT3vJeft9M7fuSAF1EcGgA)
 
-函数 fetchWithTimeout 的返回类型被推断为 Promise<Response>，所以不需要写类型注解。这里为什么会这样挺有意思的：Promise.race 的返回类型是它输入类型的联合，在这个例子里是 Promise\<Response | never>。但和 never（空集合）做联合其实没影响，所以会简化成 Promise<Response>。在处理 Promise 时，TypeScript 会自动帮你推断出正确的类型。
+函数 fetchWithTimeout 的返回类型被推断为 `Promise<Response>`，所以不需要写类型注解。这里为什么会这样挺有意思的：`Promise.race` 的返回类型是它输入类型的联合，在这个例子里是 `Promise<Response | never>`。但和 never（空集合）做联合其实没影响，所以会简化成 `Promise<Response>`。在处理 Promise 时，TypeScript 会自动帮你推断出正确的类型。
 
-有时候你可能得用原生 Promise，特别是当你包装像 setTimeout 这样的回调 API。但如果可以选择，通常建议用 async/await 替代原生 Promise，原因有两个：
-• 代码更简洁明了。
-• async 函数保证一定返回 Promise。
+有时候你可能得用原生 Promise，特别是当你包装像 setTimeout 这样的回调 API。但如果可以选择，通常建议用 `async/await` 替代原生 Promise，原因有两个：
+
+1. 代码更简洁明了。
+2. async 函数保证一定返回 Promise。
 
 这个特性可以帮你避免一些容易混淆的 bug。根据定义，async 函数总是返回 Promise，即使里面没有用 await。TypeScript 能帮你理解这一点：
 
