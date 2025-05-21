@@ -55,7 +55,7 @@ const berry = fetchAPI<SeedAPI, '/seed/strawberry'>('/seed/strawberry') // ok
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMoQgE2QbwFDLLCYBcyAzmFKAOYDcByIcAthGZdSPXgL54QAHgAcA9lDBFw0eEjQZMAQQAKASVyMA5AHpyC8prLosAbQC6DQjr1ZtcYcIA2EQ-KyXk1hbqpwA7gBG0FAAnq7GmB7a2sgAdPF8eJgQCI5wUCgwAK4gCGDAoiDIMBBgCAAWKqoAPIxVADTIynBg5chCkCCY5MgA1hAhojDIVXgAfAAUwi3lZM2tAJRzUKIswHrVVSbz5WZjDAiFlMhBUKHIALzFpRVV1RENnrrenP6noZqTXravgcFhCzohGiyFEvTwIMIyAAegB+ZCHEDHd4hZardYQe4KMZ4IA)
 
-这样虽然能用，但写起来特别重复。肯定有更好的办法。我们需要把显式写 API 类型参数的地方，和推断 Path 类型参数的地方分开。
+这样虽然能用，但写起来特别重复。肯定有更好的办法。我们需要把显式写 `API` 类型参数的地方，和推断 `Path` 类型参数的地方分开。
 
 常用的两种方法是：类和柯里化。
 
