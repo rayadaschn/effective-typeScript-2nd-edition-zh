@@ -1,4 +1,4 @@
-# Item 29: Prefer Types That Always Represent Valid States
+# 第 29 条: 尽量让你的类型只能表示合法的状态
 
 ## 要点
 

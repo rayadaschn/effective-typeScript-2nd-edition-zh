@@ -45,13 +45,13 @@ _提升 TypeScript 的 83 条具体方法_
 - [📝 第 23 条](./ch-inference/avoid-aliasing.md): 保持别名使用的一致性
 - [📝 第 24 条](./ch-inference/context-inference.md): 理解上下文在类型推断中的作用
 - [📝 第 25 条](./ch-inference/evolving-any.md): 理解类型演变
-- [📝 第 26 条](./ch-inference/functional-libraries.md): 使用函数式构造和库帮助类型流动
-- [📝 第 27 条](./ch-inference/use-async-await.md): 使用 async 函数替代回调以改善类型流动
-- [📝 第 28 条](./ch-inference/inference-sites.md): 使用类和柯里化创建新的推断点
+- [📝 第 26 条](./ch-inference/functional-libraries.md): 使用函数式写法和函数式库来帮助类型推导
+- [📝 第 27 条](./ch-inference/use-async-await.md): 使用 async 函数替代回调以改善类型推导
+- [📝 第 28 条](./ch-inference/inference-sites.md): 用类和柯里化创建新的类型推断点
 
 ## **第 4 章：类型设计**
 
-- [📝 第 29 条](./ch-design/valid-states.md): 优先设计始终表示有效状态的类型
+- [📝 第 29 条](./ch-design/valid-states.md): 尽量让你的类型只能表示合法的状态
 - [📝 第 30 条](./ch-design/loose-accept-strict-produce.md): 接受要宽松，输出要严格
 - [📝 第 31 条](./ch-design/jsdoc-repeat.md): 不要在文档中重复类型信息
 - [📝 第 32 条](./ch-design/null-in-type.md): 避免在类型别名中包含 `null` 或 `undefined`
