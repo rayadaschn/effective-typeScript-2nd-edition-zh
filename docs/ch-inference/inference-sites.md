@@ -92,7 +92,7 @@ const seed: Seed = await fetcher.fetch('/seeds')
 
 这正是我们想要的类型检查效果。（当然你还得实现这个类，这里重点是类型）
 
-之前需要写两个泛型参数的函数，现在变成了一个类，构造函数时显式指定一个泛型参数（API），调用 fetch 方法时自动推断一个泛型参数（Path）。TypeScript 完全支持你在 new ApiFetcher<SeedAPI>() 时绑定 API 类型，然后在调用 fetch 时推断 Path。
+之前需要写两个泛型参数的函数，现在变成了一个类，构造函数时显式指定一个泛型参数（API），调用 `fetch` 方法时自动推断一个泛型参数（Path）。TypeScript 完全支持你在 `new ApiFetcher<SeedAPI>()` 时绑定 API 类型，然后在调用 `fetch` 时推断 Path。
 
 用类来划分绑定位置特别适合有多个方法都需要用同一个类型参数的情况。
 
