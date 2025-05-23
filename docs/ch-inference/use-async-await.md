@@ -2,7 +2,7 @@
 
 ## 要点
 
-- 为了更好的组合性和类型流，优先使用 Promises 而非回调函数。
+- 为了更好的组合性和类型转换，优先使用 Promises 而非回调函数。
 - 尽可能使用 `async` 和 `await` 替代原始的 Promises，它们可以生成更简洁、直接的代码，并消除一类常见的错误。
 - 如果一个函数返回 Promise，声明该函数为 `async`。
 
@@ -99,7 +99,7 @@ async function fetchPages() {
 相比回调，推荐使用 Promise 或 `async/await` 有几个好处：
 
 - Promise 比回调更容易组合（组合多个异步操作更方便）。
-- 类型信息更容易在 Promise 中流动，而回调中类型流动更难。
+- 类型信息更容易在 Promise 中转换，而回调中类型转换更难。
 
 比如你想并行请求多个页面，可以用 `Promise.all` 来组合 Promise：
 
@@ -276,6 +276,6 @@ getJSON
 
 ## 关键点总结
 
-- 为了更好的组合性和类型流，优先使用 Promises 而非回调函数。
+- 为了更好的组合性和类型转换，优先使用 Promises 而非回调函数。
 - 尽可能使用 `async` 和 `await` 替代原始的 Promises，它们可以生成更简洁、直接的代码，并消除一类常见的错误。
 - 如果一个函数返回 Promise，声明该函数为 `async`。

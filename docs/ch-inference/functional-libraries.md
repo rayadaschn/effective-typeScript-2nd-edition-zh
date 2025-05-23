@@ -144,7 +144,7 @@ const allPlayers = Object.values(rosters).flat() // OK
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/MYewdgzgLgBMEDcAiBDKKYF4YCIB0BOA3AFCiSwBOKA7gEog0RZyKrp4QAOANgJZQAFAHIAOmGEBKUuWgwAFgFMUAE0WVm2avUYQA2gAYAup14CRAGimk+AWy4hKsAPowAZpRC2YwniBUoEPLCNmBQ6m4owIowAEKBANaKUABGKDw8AAo8KACe6jAA3iQwMGAotooAXDDQlHxgAOakpeEVNXUNzSW16SiUuTVgAK62KeqkAL4kasA5lDGyVCDQ6hA1hXptth1Q9U1GNfEQSanpWTn5lHpGkzLgcufZeWssAPIpAFaKwFB4COlhooIIJPKsNJI8G4ckJpDAAPTwmBvADSJERpVKAD0APxwB6wJ6XNZHRLJNIZZ5XG4kIA)
 
-`flat` 方法可以把多维数组拍平。它的类型签名大致是 `T[][] => T[]`。这种写法最简洁，也不需要任何类型注解。额外好处是你可以用 `const` 来定义 `allPlayers`，防止以后被修改。
+`flat` 方法可以把多维数组拍平。它的类型大致是 `T[][] => T[]`。这种写法最简洁，也不需要任何类型注解。额外好处是你可以用 `const` 来定义 `allPlayers`，防止以后被修改。
 
 假设你想从 `allPlayers` 出发，做一个按薪水排序的各队最高薪球员列表。
 
@@ -213,7 +213,7 @@ _(v).a().b().c().value()
 
 你可以在链中逐步检查每个函数调用的类型，类型始终是正确的。
 
-类型能如此顺畅地在这些内置函数式写法和 Lodash 这类库中流动，绝非巧合。它们避免了可变操作，每次调用都返回新值，因此也能产生新的类型（参见第 19 条）。TypeScript 的发展，很大程度上就是为了准确建模现实中 JavaScript 库的行为。好好利用这些成果，多用它们吧！
+类型能如此顺畅地在这些内置函数式写法和 Lodash 这类库中转换，绝非巧合。它们避免了可变操作，每次调用都返回新值，因此也能产生新的类型（参见第 19 条）。TypeScript 的发展，很大程度上就是为了准确建模现实中 JavaScript 库的行为。好好利用这些成果，多用它们吧！
 
 ## 关键点总结
 
