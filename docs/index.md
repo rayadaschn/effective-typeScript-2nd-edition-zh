@@ -52,7 +52,7 @@ _提升 TypeScript 的 83 条具体方法_
 ## **第 4 章：类型设计**
 
 - [📝 第 29 条](./ch-design/valid-states.md): 尽量让你的类型只能表示合法的状态
-- [📝 第 30 条](./ch-design/loose-accept-strict-produce.md): 接受要宽松，输出要严格
+- [📝 第 30 条](./ch-design/loose-accept-strict-produce.md): 对输入要宽容，对输出要严格
 - [📝 第 31 条](./ch-design/jsdoc-repeat.md): 不要在文档中重复类型信息
 - [📝 第 32 条](./ch-design/null-in-type.md): 避免在类型别名中包含 `null` 或 `undefined`
 - [📝 第 33 条](./ch-design/null-values-to-perimeter.md): 将 null 值推至类型边界
