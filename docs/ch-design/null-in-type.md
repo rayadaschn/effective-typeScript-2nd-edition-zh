@@ -1,10 +1,12 @@
-# Item 32: Avoid Including null or undefined in Type Aliases
+# 第 32 条：避免在类型别名中包含 `null` 或 `undefined`
 
 ## 要点
 
 - 避免定义包含 `null` 或 `undefined` 的类型别名。
 
 ## 正文
+
+在这段代码中，问号链`（?.）`是必须的吗？user 有可能是 `null` 吗？
 
 ```ts
 function getCommentsForUser(comments: readonly Comment[], user: User) {
