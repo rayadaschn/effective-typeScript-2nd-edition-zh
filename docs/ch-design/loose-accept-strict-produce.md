@@ -1,4 +1,4 @@
-# 第 30 条：对输入要宽容，对输出要严格
+# 第 30 条：对输入要宽松，对输出要严格
 
 ## 要点
 
@@ -11,7 +11,7 @@
 
 这个观点被称为**健壮性原则**，也叫 **Postel 定律**，源自 Jon Postel 在设计 TCP 网络协议时的建议：
 
-> “在你做的事情上要保守，在你接收的内容上要宽容。”
+> “在你做的事情上要保守，在你接收的内容上要宽松。”
 
 这个原则同样适用于函数的“契约”。你的函数在**接收输入时可以灵活**一些，但在**返回输出时应该更严格、更明确**。
 
@@ -45,9 +45,9 @@ type LngLat =
 
 `CameraOptions` 类型里的字段都是可选的，这是因为有时候你可能只想设置中心点（center）或缩放级别（zoom），而不想改动方向（bearing）或倾斜角度（pitch）。
 
-`LngLat` 类型也体现了“对输入宽容”的原则：你可以传一个 `{lng, lat}` 对象，也可以传 `{lon, lat}` 对象，甚至可以传一个 `[lng, lat]` 的数组（只要你确定顺序没搞错）。这些灵活性让函数调用起来非常方便。
+`LngLat` 类型也体现了“对输入宽松”的原则：你可以传一个 `{lng, lat}` 对象，也可以传 `{lon, lat}` 对象，甚至可以传一个 `[lng, lat]` 的数组（只要你确定顺序没搞错）。这些灵活性让函数调用起来非常方便。
 
-`viewportForBounds` 函数的参数也是一种“宽容”的类型：
+`viewportForBounds` 函数的参数也是一种“宽松”的类型：
 
 ```ts
 type LngLatBounds =
@@ -58,7 +58,7 @@ type LngLatBounds =
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMJwLbTgeQA5jAD2IAzsgN4BQyyS40A-AFzIAyIA5m3GANw1kALyJEMLZCACuGAEbQBteXCihOE6XIWC8wMAgAWGmfKgCAvlTABPPCg7deyALyCKyADZdWm030+8PiYKyObIAD5uniRBWmYBYLF+oRGCANq+0AA0ksFQALoCNnbsXDxgAEJEUiAAJuSutBQgRFBgBhBwpImljmA5pNXtAO4Q3awO5WGRtGmTvDnzYPmps5lQOeubedtxhVRAA)
 
-你可以用多种方式来指定边界：使用命名的角点、一对经纬度，或者是四元组（只要你确定顺序没错）。由于 `LngLat` 本身就支持三种格式，所以 `LngLatBounds` 理论上有多达 19 种写法（3 × 3 + 3 × 3 + 1），可谓相当“宽容”！
+你可以用多种方式来指定边界：使用命名的角点、一对经纬度，或者是四元组（只要你确定顺序没错）。由于 `LngLat` 本身就支持三种格式，所以 `LngLatBounds` 理论上有多达 19 种写法（3 × 3 + 3 × 3 + 1），可谓相当“宽松”！
 
 现在我们来写一个函数，用来调整视图范围以适应一个 GeoJSON 要素，并把新的视图参数存储到 URL 中（我们假设已有一个辅助函数可以计算 GeoJSON 要素的边界框）：
 
@@ -81,7 +81,7 @@ function focusOnFeature(f: Feature) {
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/JYOwLgpgTgZghgYwgAgMJwLbTgeQA5jAD2IAzsgN4BQyyS40A-AFzIAyIA5m3GANw1kALyJEMLZCACuGAEbQBteXCihOE6XIWC8wMAgAWGmfKgCAvlTABPPCg7deyALyCKyADZdWm030+8PiYKyObIAD5uniRBWmYBYLF+oRGCANq+0AA0ksFQALoCNnbsXDxgAEJEUiAAJuSutBQgRFBgBhBwpImljmA5pNXtAO4Q3awO5WGRtGmTvDnzYPmps5lQOeubedtxhVS1EAgeKigwNQiEJMikEGDoWFBwABQImNisD9j4V2QAlKwAG5EYC1ASHY6nZDnECXYggZCA4AQYZ4VpgABirSqNXqz1k1TqpAmZV4OKJALQ7yeP3hpCKthQGM6YCkUBQzmQcBA1nBRxO7OhF1+dDgHgQUhOkHJtTUVQAHs8YKxmbw2RBKRkdrk4rtTHroPsYXDrjAiBLSDgQKrWeylSqWeq-pRBAgSN1kATcQ1ReLJbwIDK5URFTA-v4APQR5AdDx2KBC2G-V3usCix5wFyI5Go9FYqAy0j4wn1cOCW73akvN4Zsu0N1kNMUeiQKCsChSnJeTjmHIiMRhTk17CKWhj8cTqPIAB+s4nyAAClAiPGbMgAORS9fIWpEMaSIhpiDy4Ae67FFAAOmvgnnd6nE9n08Xy9X1g33e3u-3LSPJ7PCIXsg16XoI-YYKOU4AHqMHQqbCKIGBJNAETILiEAwKAEC1IIwygLuwyXh45q8PCl63CohhZgABowgLOAAAgAJB2vC9ix3bmEILHgeY1EWFQQA)
 
-不幸的是！返回结果里只有 `zoom` 属性存在，但它的类型被推断成了 `number | undefined`，这也会带来问题。问题在于 `viewportForBounds` 的类型声明不仅对输入很宽容，对输出也很宽容。要想安全地使用返回的 `camera` 对象，就必须为联合类型的每个可能情况编写条件分支。
+不幸的是！返回结果里只有 `zoom` 属性存在，但它的类型被推断成了 `number | undefined`，这也会带来问题。问题在于 `viewportForBounds` 的类型声明不仅对输入很宽松，对输出也很宽松。要想安全地使用返回的 `camera` 对象，就必须为联合类型的每个可能情况编写条件分支。
 
 这种带有大量可选属性和联合类型的返回值，让 `viewportForBounds` 变得难以使用。它的参数类型很宽松，调用方便；但它的返回类型也很宽松，反而不方便。更理想的 API 应该**对返回值更严格**。
 
@@ -155,7 +155,7 @@ function focusOnFeature(f: Feature) {
 
 那允许边界框有 19 种不同的写法，是不是一个好设计？可能不是。但如果你要为这样的库编写类型声明，你就得按照它的行为来建模。**只是别让你的函数返回值也有 19 种类型！**
 
-这种“对输入宽容、对输出严格”的模式最常见的应用场景之一，就是函数的参数是数组的情况。比如下面这个函数，用来对数组中的元素求和：
+这种“对输入宽松、对输出严格”的模式最常见的应用场景之一，就是函数的参数是数组的情况。比如下面这个函数，用来对数组中的元素求和：
 
 ```ts
 function sum(xs: number[]): number {

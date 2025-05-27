@@ -118,11 +118,11 @@ export const sidebar: DefaultTheme.Sidebar = [
             link: '/ch-inference/evolving-any.md',
           },
           {
-            text: '使用函数式构造和库帮助类型流动',
+            text: '使用函数式写法和函数式库来帮助类型',
             link: '/ch-inference/functional-libraries.md',
           },
           {
-            text: '使用 async 函数替代回调以改善类型流动',
+            text: '使用 async 函数替代回调以改善类型推导',
             link: '/ch-inference/use-async-await.md',
           },
           {
@@ -139,7 +139,7 @@ export const sidebar: DefaultTheme.Sidebar = [
             link: '/ch-design/valid-states.md',
           },
           {
-            text: '接受要宽松，输出要严格',
+            text: '对输入要宽松，对输出要严格',
             link: '/ch-design/loose-accept-strict-produce.md',
           },
           {
@@ -155,7 +155,7 @@ export const sidebar: DefaultTheme.Sidebar = [
             link: '/ch-design/null-values-to-perimeter.md',
           },
           {
-            text: '优先使用接口的联合而非联合中的接口',
+            text: '优先使用接口的联合类型，而不是属性为联合类型的接口',
             link: '/ch-design/union-of-interfaces.md',
           },
           {
