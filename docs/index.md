@@ -55,7 +55,7 @@ _提升 TypeScript 的 83 条具体方法_
 - [📝 第 30 条](./ch-design/loose-accept-strict-produce.md): 对输入要宽容，对输出要严格
 - [📝 第 31 条](./ch-design/jsdoc-repeat.md): 不要在文档中重复类型信息
 - [📝 第 32 条](./ch-design/null-in-type.md): 避免在类型别名中包含 `null` 或 `undefined`
-- [📝 第 33 条](./ch-design/null-values-to-perimeter.md): 将 null 值推至类型边界
+- [📝 第 33 条](./ch-design/null-values-to-perimeter.md): 把 `null` 值留在类型的外层
 - [📝 第 34 条](./ch-design/union-of-interfaces.md): 优先使用接口的联合而非联合中的接口
 - [📝 第 35 条](./ch-design/avoid-strings.md): 使用更精确的替代方案代替字符串类型
 - [📝 第 36 条](./ch-design/in-domain-null.md): 为特殊值使用独立类型

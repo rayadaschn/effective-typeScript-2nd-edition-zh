@@ -1,15 +1,18 @@
-# Item 33: Push Null Values to the Perimeter of Your Types
+# 第 33 条：把 `null` 值留在类型的外层
 
 ## 要点
 
-- Avoid designs in which one value being `null` or not `null` is implicitly related to another value being `null` or not `null`.
-- Push `null` values to the perimeter of your API by making larger objects either `null` or fully non-`null`. This will make code clearer both for human readers and for the type checker.
-- Consider creating a fully non-`null` class and constructing it when all values are available.
 - 避免设计中一个值是否为 `null` 隐式地与另一个值是否为 `null` 相关联。
 - 通过使较大的对象要么为 `null`，要么完全非 `null`，将 `null` 值推到 API 的外围。这将使代码对程序员和类型检查器更加清晰。
 - 考虑创建一个完全非 `null` 的类，并在所有值都可用时构造它。
 
 ## 正文
+
+当你刚开启 `strictNullChecks` 时，可能会觉得代码里得加一大堆 `if` 判断来检测 `null` 和 `undefined`。这通常是因为 `null` 和非 `null` 值之间的关系是隐含的：当变量 A 非 `null` 时，你知道变量 B 也非 `null`，反之亦然。这种隐含关系让代码阅读者和类型检查器都感到困惑。
+
+如果值要么完全是 `null`，要么完全不是 `null`，比起混合状态，处理起来会更简单。你可以通过把 `null` 值保留在数据结构的外层。
+
+举个例子，假设你想计算一组数字的最小值和最大值，我们称之为“范围（extent）”。下面是一个尝试的写法：
 
 ```ts
 // @strictNullChecks: false
