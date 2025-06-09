@@ -16,7 +16,7 @@
 
 你可能会直接运行 TypeScript 编译器 `tsc`，但 `tsserver` 同样重要，因为它提供了语言服务，包括自动补全、检查、导航和重构。你通常通过编辑器使用这些服务。如果你的编辑器没有配置这些服务，那你可就错过了！像自动补全这样的服务正是 TypeScript 的优势之一。
 
-除了便利性之外，编辑器还是最适合你构建和测试类型系统的工具。这将帮助你培养直觉，了解什么时候 TypeScript 可以自动推断类型，这对编写简洁、符合规范的代码至关重要（见第 18 条）。
+除了便利性之外，编辑器还是最适合你构建和测试类型系统的工具。这将帮助你建立 TypeScript 类型直觉。了解什么时候 TypeScript 可以自动推断类型，这对编写简洁、符合规范的代码至关重要（见第 18 条）。
 
 通常可以将鼠标悬停在一个变量符号上，查看 TypeScript 对它的类型定义。
 
@@ -46,7 +46,7 @@ inside.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/20250326212
 
 ![Revealing inferred generic types in a chain of method calls](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202503262130802.png)
 
-`Array<string>` 表明 TypeScript 理解了 `split` 方法产生了一个字符串数组。虽然在这个例子中并没有太多的歧义，但这个信息在编写和调试长链函数调用时非常重要。TypeScript 还为 `slice` 方法提供了有用的文档。第 68 条将解释这一如何工作。
+`Array<string>` 表明 TypeScript 理解了 `split` 方法产生了一个字符串数组。虽然在这个例子中并没有太多的歧义，但这个信息在编写和调试长链函数调用时非常重要。TypeScript 还为 `slice` 方法提供了有用的文档。第 68 条将解释这是如何运作的。
 
 在编辑器中看到类型错误也是学习类型系统细节的好方法。例如，这个函数试图通过 ID 获取一个 `HTMLElement`，或者返回一个默认的元素。TypeScript 标记了两个错误：
 
@@ -109,7 +109,7 @@ console.log(i)
 
 ![Renaming a symbol in your editor.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202503262150699.png)
 
-当你应用被重构时，只有与你重命名的 `i` 相关的引用会被更改。
+当你的代码被重构时，只有与重命名的 `i` 相关的引用会被更改。
 
 ```ts
 let i = 0
