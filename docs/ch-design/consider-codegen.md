@@ -86,7 +86,7 @@ function calculateBoundingBox(f: Feature): BoundingBox | null {
 
 当你对 `GeometryCollection` 类型的地理要素调用 `calculateBoundingBox` 方法时，会抛出 **"无法读取 undefined 的属性 0"** 的错误。这是个真实存在的 bug！而正是通过使用社区提供的类型定义，我们提前发现了这个问题。
 
-修复这个 bug 的一个方案是：**明确禁止传入 `GeometryCollection` 类型**。  
+修复这个 bug 的一个方案是：**明确禁止传入 `GeometryCollection` 类型**。
 
 ```ts
 const { geometry } = f
@@ -169,9 +169,9 @@ API 调用同理：
 }
 ```
 
-`paths` 部分定义了 API 的接口路径，并将它们与 `components/schemas` 中的数据类型关联起来。我们生成类型所需的所有信息都在这里。  
+`paths` 部分定义了 API 的接口路径，并将它们与 `components/schemas` 中的数据类型关联起来。我们生成类型所需的所有信息都在这里。
 
-从 OpenAPI 规范提取类型有多种方法，其中一种是把 `schemas` 部分的内容提取出来，然后用 `json-schema-to-typescript` 这样的工具转换成 TypeScript 类型。  
+从 OpenAPI 规范提取类型有多种方法，其中一种是把 `schemas` 部分的内容提取出来，然后用 `json-schema-to-typescript` 这样的工具转换成 TypeScript 类型。
 
 ```bash
 $ jq .components.schemas.CreateCommentRequest schema.json > comment.json
@@ -188,11 +188,11 @@ export interface CreateCommentRequest {
 
 这样生成的类型定义既清晰又规范，能让你以类型安全的方式调用 API。TypeScript 会自动标出请求体的类型错误，并将正确的响应类型传递到代码各处。关键点在于：这些类型不是你手动写的，而是从可靠的官方规范自动生成的。如果某个字段是可选的或允许为 null，TypeScript 会强制你处理这些可能性。
 
-接下来可以添加运行时验证，并把这些类型直接关联到对应的 API 接口。有很多工具能帮你实现这一点（第74条会回到这个例子）。但要注意保持生成的类型与 API 规范同步（第58条会讨论同步策略）。
+接下来可以添加运行时验证，并把这些类型直接关联到对应的 API 接口。有很多工具能帮你实现这一点（第 74 条会回到这个例子）。但要注意保持生成的类型与 API 规范同步（第 58 条会讨论同步策略）。
 
 如果没有官方规范怎么办？这时你需要从实际数据生成类型。像 `quicktype` 这类工具能帮忙，但要警惕：这样生成的类型可能遗漏边界情况（除非数据量有限，比如已知的 1000 个 JSON 文件目录，这时可以确保全覆盖）。
 
-其实你已经在享受代码生成的好处了——TypeScript 的浏览器 DOM 类型声明（第75条详述）就是从 MDN 的 API 描述自动生成的。这确保了复杂系统的精确建模，帮你的代码规避错误。
+其实你已经在享受代码生成的好处了——TypeScript 的浏览器 DOM 类型声明（第 75 条详述）就是从 MDN 的 API 描述自动生成的。这确保了复杂系统的精确建模，帮你的代码规避错误。
 
 ## 关键点总结
 
