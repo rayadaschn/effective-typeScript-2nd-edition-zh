@@ -146,6 +146,8 @@ function double(val) {
 
 你会在编辑器里看到 `val` 下方出现虚线标注，点击它就能看到如图 10-2 所示的快速修复选项。
 
+![Figure 10-2. The TypeScript Language Services offer a quick fix to infer parameter types from usage.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506102225524.png)
+
 这会生成正确的 JSDoc 注释：
 
 ```js

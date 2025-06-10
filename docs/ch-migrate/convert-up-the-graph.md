@@ -41,6 +41,8 @@ async function fetchTable(): Promise<TabularData> {
 
 ---
 
+![Figure 10-3. The dependency graph for a medium-sized JavaScript project. Arrows indi‐ cate imports. Darker-shaded boxes indicate that a module is involved in a circular import.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506102226468.png)
+
 ```ts
 class Greeting {
   constructor(name) {
@@ -59,6 +61,8 @@ class Greeting {
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&noImplicitAny=false&strictNullChecks=false#code/MYGwhgzhAEDiBOBTRAXAlgOwObQN4ChppgB7DCFeAV2BRPgAoMwBbRASj0KOhQAs0EAHRYkqTDgC80AOQAJRCBAkZAbm5EA9Jp4A-fQf3QACvBIAHRPBQBPWaOTpsM6ABMSiGBhIpoiAB6CvmS8NpayCI4SMhq8AsLMbNDSiYjqPNDaegYmZpbWdjKpLu6e0N6+AUHQIbbhMpHiztwAvtwOqAycBBlIKFTwGNAABgAkuPyCImJOWC3Q45MJrIgtw+k8WRnb2YZGO0SGuRZWttBCF24eXj5+gRSt+G1AA)
 
 ---
+
+![Figure 10-4. The quick fix to add declarations for missing members is particularly help‐ ful in converting a class to TypeScript.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506102228576.png)
 
 ```ts
 class Greeting {
@@ -114,6 +118,8 @@ state.capital = 'Albany' // OK
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5&noImplicitAny=false&strictNullChecks=false#code/JYOwLgpgTgZghgYwgAgMpjpZBvAUM5EOAWwgC5kBnMKUAcwG59kE4AHYDAGwutpEa4AvrgQB7ENSoYsAXhxDkcSmhkQm1TBAB0RUsnkByAHIQA7sgCaYqAGtDDAgHonyAPIBpXJsjbWHbgNkQwBBLgAjOBAATwdnV09cIA)
 
 ---
+
+![Figure 10-5. Quick fix to copy JSDoc annotations to TypeScript type annotations.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506102229776.png)
 
 ```js
 // @ts-check

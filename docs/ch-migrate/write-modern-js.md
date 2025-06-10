@@ -2,10 +2,10 @@
 
 ## 要点
 
-- TypeScript lets you write modern JavaScript whatever your runtime environment. Take advantage of this by using the language features it enables. In addition to improving your codebase, this will help TypeScript understand your code.
-- Adopt ES modules (`import`/`export`) and classes to facilitate your migration to TypeScript.
-- Use TypeScript to learn about language features like classes, destructuring, and `async`/`await`.
-- Check the TC39 GitHub repo and TypeScript release notes to learn about all the latest language features.
+- **环境无关的现代 JS**：TypeScript 让你无视运行时环境限制，尽享新特性红利，同时提升代码质量与类型推断
+- **迁移两大核心**：优先采用**ES 模块**和**类**语法
+- **用 TS 学 JS**：通过 TypeScript 的类型提示学习类、解构、`async/await`等特性
+- **追踪动态**：关注[TC39 GitHub](https://github.com/tc39/proposals)和 TypeScript 更新日志
 
 ## 正文
 
@@ -98,6 +98,8 @@ TypeScript 处理原型版的`Person`会很吃力，但对基于类的版本只�
 
 对于使用旧式类写法的代码，TypeScript 语言服务提供了"转换为 ES2015 类"的快速修复功能（见图 10-1），能极大加速转换过程。
 
+![Figure 10-1. The TypeScript language service offers a quick fix to convert older-style classes to ES2015 classes.](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506102223163.png)
+
 ### 其他现代 JavaScript 特性
 
 虽然采用 ES 模块和类对 TypeScript 迁移帮助最大，但 JavaScript 每年都在更新，掌握这些特性能让代码更简洁地道（自然也就更符合 TypeScript 风格）。以下列出关键特性，不熟悉的建议主动学习：
@@ -137,7 +139,7 @@ TC39（JavaScript 标准委员会）每年都会新增特性。TypeScript 团队
 
 ## 关键点总结
 
-1. **环境无关的现代 JS**：TypeScript 让你无视运行时环境限制，尽享新特性红利，同时提升代码质量与类型推断
-2. **迁移两大核心**：优先采用**ES 模块**和**类**语法
-3. **用 TS 学 JS**：通过 TypeScript 的类型提示学习类、解构、`async/await`等特性
-4. **追踪动态**：关注[TC39 GitHub](https://github.com/tc39/proposals)和 TypeScript 更新日志
+- **环境无关的现代 JS**：TypeScript 让你无视运行时环境限制，尽享新特性红利，同时提升代码质量与类型推断
+- **迁移两大核心**：优先采用**ES 模块**和**类**语法
+- **用 TS 学 JS**：通过 TypeScript 的类型提示学习类、解构、`async/await`等特性
+- **追踪动态**：关注[TC39 GitHub](https://github.com/tc39/proposals)和 TypeScript 更新日志
