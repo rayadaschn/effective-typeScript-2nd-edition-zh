@@ -123,4 +123,4 @@ _提升 TypeScript 的 83 条具体方法_
 - [📝 第 80 条](./ch-migrate/jsdoc-tscheck.md): 使用 `@ts-check` 和 JSDoc 体验 TypeScript
 - [📝 第 81 条](./ch-migrate/allowjs.md): 使用 `allowJs` 混合使用 TypeScript 和 JavaScript
 - [📝 第 82 条](./ch-migrate/convert-up-the-graph.md): 按依赖图逐个模块升级
-- [📝 第 83 条](./ch-migrate/start-loose.md): 在启用 `noImplicitAny` 之前，不要认为迁移完成
+- [📝 第 83 条](./ch-migrate/start-loose.md): 迁移完成的标志是启用 `noImplicitAny`
