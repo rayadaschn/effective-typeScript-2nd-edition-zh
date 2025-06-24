@@ -1,11 +1,98 @@
-# Item 66: Understand the Three Versions Involved in Type Declarations
+# Item 66: 理解类型声明中涉及的三个版本
 
-## 要点
+依赖管理很少能让软件开发人员感到愉快。通常，你只想使用一个库，而不想过多考虑其传递依赖是否与你的依赖兼容。
 
-- There are three versions involved in an `@types` dependency: the library version, the `@types` version, and the TypeScript version.
-- Recognize the symptoms of different types of version mismatch.
-- If you update a library, make sure you update the corresponding `@types`.
-- Understand the pros and cons of bundling types versus publishing them on DefinitelyTyped. Prefer bundling types if your library is written in TypeScript, and DefinitelyTyped if it is not.
+坏消息是，TypeScript 并没有让这种情况变得更好。事实上，它可能让依赖管理变得更加复杂。这是因为你不再只需要担心一个版本，而是需要担心多达三个版本：
+
+- 包的版本
+- 其类型声明（@types）的版本
+- TypeScript 的版本
+
+如果这些版本中的任何一个与其他版本不同步，你可能会遇到一些错误，这些错误可能与依赖管理没有明显关系。但正如俗话所说，"让事情尽可能简单，但不要过于简单。"理解 TypeScript 包管理的全部复杂性将帮助你诊断和修复问题。当你需要发布自己的类型声明时，它也会帮助你做出更明智的决策。
+
+以下是 TypeScript 中依赖关系应该如何工作的方式。你将包作为直接依赖安装，并将其类型作为开发依赖安装（参见第 65 条）：
+
+```bash
+$ npm install react
++ react@18.2.0
+$ npm install --save-dev @types/react
++ @types/react@18.2.23
+```
+
+注意，主版本和次版本（18.2）匹配，但补丁版本（.0 和 .23）不匹配。这正是你想要看到的情况。@types 版本中的 18.2 意味着这些类型声明描述了 react 18.2 版本的 API。假设 react 模块遵循良好的语义版本控制规范，补丁版本（18.2.1、18.2.2 等）不会改变其公共 API，也不需要更新类型声明。但类型声明本身可能有错误或遗漏。@types 模块的补丁版本对应于这些类型的修复和补充。在这种情况下，类型声明的更新比库本身多得多（23 对 0）。
+
+版本匹配可能在几个方面出错。
+
+首先，你可能更新了库但忘记更新其类型声明。这通常是由于自动依赖更新工具（如 Dependabot）造成的。在这种情况下，每当你尝试使用库的新功能时，你都会得到类型错误。如果库有破坏性更改，尽管你的代码通过了类型检查器，你仍可能遇到运行时错误。
+
+解决方案通常是更新你的类型声明，使版本重新同步。如果类型声明尚未更新，你有几个选择。你可以在自己的项目中使用增强来添加你想要使用的新函数和方法（第 71 条会告诉你如何做）。或者你可以将更新的类型声明贡献回社区。
+
+其次，你的类型声明可能领先于你的库。如果你一直在使用没有类型声明的库（也许你使用 `declare module` 给它一个 `any` 类型），然后尝试稍后安装它们，就会发生这种情况。如果库及其类型声明有新版本，你的版本可能不同步。这种情况的症状与第一个问题类似，只是方向相反。类型检查器将根据最新的 API 检查你的代码，而你在运行时使用的是较旧的 API。解决方案是升级库或降级类型声明，直到它们匹配。
+
+第三，类型声明可能需要比你项目中使用的更新的 TypeScript 版本。TypeScript 类型系统的大部分开发都是为了更精确地类型化流行的 JavaScript 库，如 Lodash、React 和 Ramda。这些库的类型声明想要使用最新和最伟大的功能来为你提供更好的类型安全性是有道理的。
+
+你会在 @types 声明本身中遇到类型错误。解决方案是执行以下操作之一：升级你的 TypeScript 版本，使用较旧版本的类型声明，或者，如果你真的无法更新 TypeScript，使用 `declare module` 来存根类型。库可以通过 `typesVersions` 为不同版本的 TypeScript 提供不同的类型声明。这种情况很少见（DefinitelyTyped 上不到 1% 的包这样做），但你可能会在广泛使用的类型声明中遇到它，如 @types/node 和 @types/react。
+
+要为特定版本的 TypeScript 安装 @types，你可以使用：
+
+```bash
+npm install --save-dev @types/react@ts4.9
+```
+
+库与其类型之间的版本匹配是尽力而为的，可能并不总是正确的。但库越受欢迎，其类型声明就越有可能正确。
+
+第四，你可能会遇到重复的 @types 依赖。假设你依赖 @types/foo 和 @types/bar。如果 @types/bar 依赖于不兼容版本的 @types/foo，那么 npm 将尝试通过安装两个版本来解决这个问题，一个在嵌套文件夹中：
+
+```
+node_modules/
+      @types/
+        foo/
+          index.d.ts @1.2.3
+        bar/
+          index.d.ts
+          node_modules/
+            @types/
+              foo/
+                index.d.ts @2.3.4
+```
+
+虽然这对于运行时使用的 node 模块有时是可以的，但对于生活在扁平全局命名空间中的类型声明来说，几乎肯定是不行的。你会看到关于重复声明或无法合并的声明的错误。你可以通过运行 `npm ls @types/foo` 来追踪为什么你有重复的类型声明。解决方案通常是更新你对 @types/foo 或 @types/bar 的依赖，使它们兼容。
+
+像这样的传递 @types 依赖通常是麻烦的根源。如果你要发布类型，请参见第 70 条了解避免它们的方法。如果你有大量重复的类型声明，它甚至可能成为 TypeScript 编译器的性能问题。第 78 条更详细地讨论了这个主题。
+
+一些包，特别是用 TypeScript 编写的包，选择捆绑自己的类型声明。这通常由其 package.json 中的 "types" 字段指示，该字段指向 .d.ts 文件：
+
+```json
+{
+  "name": "left-pad",
+  "version": "1.3.0",
+  "description": "String left pad",
+  "main": "index.js",
+  "types": "index.d.ts"
+  // ...
+}
+```
+
+这解决了我们所有的问题吗？如果答案是"是"，我还会问吗？
+
+捆绑类型确实解决了版本不匹配的问题，特别是如果库本身是用 TypeScript 编写的，并且类型声明是由 tsc 生成的（使用 declaration 设置）。但捆绑也有自己的问题。
+
+首先，如果捆绑的类型中有错误，无法通过增强修复（第 71 条）怎么办？或者类型在发布时工作正常，但后来发布了新的 TypeScript 版本，该版本标记了错误。使用 @types，你可以依赖库的实现但不依赖其类型声明。但使用捆绑类型，你失去了这个选项。一个糟糕的类型声明可能会让你停留在旧版本的 TypeScript 上。将此与 DefinitelyTyped 对比：随着 TypeScript 的开发，Microsoft 会针对 DefinitelyTyped 上的所有类型声明运行它。破坏会很快得到修复。
+
+其次，如果你的类型依赖于另一个库的类型声明怎么办？通常，这将是 devDependency（第 65 条）。但如果你发布你的模块，另一个用户安装它，他们不会得到你的 devDependencies。会导致类型错误。另一方面，你可能也不想让它成为直接依赖，因为那样你的 JavaScript 用户会无缘无故地安装 @types 模块。第 70 条讨论了这种情况的标准解决方法。但如果你在 DefinitelyTyped 上发布你的类型，这根本不是问题：你在那里声明你的类型依赖，只有你的 TypeScript 用户会得到它。
+
+一些项目采用混合解决方案，将其 TypeScript 类型作为单独的包发布。这让你可以控制自己的代码，同时仍然允许你干净地分离实现和类型依赖树。
+
+第三，如果你需要修复库旧版本类型声明的问题怎么办？你能够回去发布补丁更新吗？DefinitelyTyped 有同时维护同一库不同版本类型声明的机制，这可能是你在自己的项目中难以做到的。
+
+第四，你对接受类型声明补丁的承诺程度如何？记住，本条开头提到的 react 和 @types/react 的版本。类型声明的补丁更新比库本身多得多。DefinitelyTyped 由社区维护，能够处理这种数量。特别是，如果库维护者在五天内没有查看补丁，全局维护者会查看。你能为你的库承诺类似的周转时间吗？
+
+在 TypeScript 中管理依赖可能具有挑战性，但它确实带来回报：编写良好的类型声明可以帮助你学习如何正确使用库，并可以大大提高你的生产力。当你遇到依赖管理问题时，请记住这三个版本。
+
+如果你要发布包，请权衡捆绑类型声明与在 DefinitelyTyped 上发布它们的优缺点。官方建议是，只有当库是用 TypeScript 编写时才捆绑类型声明。这在实践中效果很好，因为 tsc 可以自动为你生成类型声明（通过使用 declaration 编译器选项）。对于 JavaScript 库，手工制作的类型声明更可能包含错误，并且需要更多更新。如果你在 DefinitelyTyped 上发布你的类型声明，社区将帮助你支持和维护它们。
+
+## 要点回顾
+
 - 一个 `@types` 依赖涉及三个版本：库版本、`@types` 版本和 TypeScript 版本。
 - 识别不同类型版本不匹配的症状。
 - 如果更新了库，确保更新相应的 `@types`。
