@@ -35,7 +35,7 @@ addCounter(document.body)
 
 如果你在浏览器中加载这个并打开调试器，你会看到生成的 JavaScript（这里我们使用 ES5 目标）。这与原始源代码非常匹配，所以调试不是太困难，如图 9-2 所示。
 
-![图 9-2. 使用 Chrome 开发者工具调试生成的 JavaScript。对于这个简单的例子，生成的 JavaScript 与 TypeScript 源代码非常相似。](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506240846723.png)
+![图 9-2.使用 Chrome 开发者工具调试生成的 JavaScript。对于这个简单的例子，生成的 JavaScript 与 TypeScript 源代码非常相似。](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506240846723.png)
 
 让我们通过从 numbersapi.com 获取每个数字的有趣事实来让页面更有趣：
 
@@ -78,7 +78,7 @@ function addCounter(el: HTMLElement) {
 
 现在当你运行 tsc 时，它会为每个 .ts 文件生成两个输出文件：一个 .js 文件和一个 .js.map 文件。后者是 source map。有了这个文件，一个新的 index.ts 文件会出现在你的浏览器调试器中。你可以在其中设置断点和检查变量，就像你希望的那样（见图 9-4）。
 
-![图 9-4. 当存在 source map 时，你可以在调试器中处理原始 TypeScript 源代码，而不是生成的 JavaScript。](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506240849360.png)
+![图 9-4.当存在`source map`时，你可以在调试器中处理原始TypeScript源代码，而不是生成的 JavaScript。](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506240849360.png)
 
 注意，index.ts 在左侧文件列表中显示为斜体。这表明它不是网页包含的"真实"文件。相反，它是通过 source map 包含的。根据你的设置，index.js.map 将包含对 index.ts 的引用（在这种情况下，浏览器通过网络加载它）或它的内联副本（在这种情况下不需要请求）。
 
@@ -106,9 +106,9 @@ main()
 
 [💻 playground](https://www.typescriptlang.org/play/?ts=5.4.5#code/PTAECMFMBMBcEsC2kB0sDOAoAhugngHYDGoAZgK7EID2Bo6ANpJAA4AUi6AXKAeYlABOASlABvTKFCDIscoLoFIAd1AAFQdUTx0kADwA3avGgA+NjPTUGByKAC8p+rIAqSSNXKwLkKzcgANKCcwsIA3JgAvpg4+MRklEQ0dIjY8ARsohJSRLR+qAzUAOZsAOQA4tTU0LzwRQAWsACEpeGSoNjKabD0TKxsAIwADCNtOXnWBcVlALLUCulFHQwy2NB4TQD8rRHRmKnpmRFAA)
 
-（Promise<void> 中的 void 表示 sleep 不会解析为可用的值，类似于从函数返回 void。）
+（`Promise<void>` 中的 `void` 表示 `sleep` 不会解析为可用的值，类似于从函数返回 `void`。）
 
-要调试这个，在你的 tsconfig.json 中设置 sourceMap 将其编译为 JavaScript。然后使用 --inspect-brk 标志用 node 运行它：
+要调试这个，在你的 tsconfig.json 中设置 sourceMap 将其编译为 JavaScript。然后使用 `--inspect-brk` 标志用 node 运行它：
 
 ```bash
 $ tsc bedtime.ts
@@ -127,7 +127,7 @@ For help, see: https://nodejs.org/en/docs/inspector
 
 除了打开运行远程调试协议的 websocket 外，--inspect-brk 标志还会在代码的最开始暂停执行。这对于切换到 TypeScript 视图并在原始源代码中设置断点很方便，如图 9-7 所示。
 
-![图 9-7. 调试 Node.js 程序的原始 TypeScript 源代码。](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506240851039.png)
+![图 9-7.调试 `Node.js` 程序的原始 TypeScript 源代码。](https://cdn.jsdelivr.net/gh/rayadaschn/blogImage@master/img/202506240851039.png)
 
 JavaScript 的 debugger 语句是另一个在你想要的地方精确设置断点的便捷方法。
 
