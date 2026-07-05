@@ -31,11 +31,14 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: npm install & build docs
-        run: |
-          npm i -g pnpm
-          pnpm install
-          pnpm docs:build
+      - name: npm install
+        run: npm ci
+
+      - name: build docs
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          npm run docs:build
 
       - name: deploy docs
         uses: crazy-max/ghaction-github-pages@v2
