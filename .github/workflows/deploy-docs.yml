@@ -25,6 +25,12 @@ jobs:
           # repo-token: ${{ secrets.DEPLOY_TOKEN }}
           # submodules: true
 
+      - name: set Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 24
+          cache: npm
+
       - name: npm install & build docs
         run: |
           npm i -g pnpm
